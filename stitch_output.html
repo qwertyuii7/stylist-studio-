@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ATELIER CURATE — Bespoke Wardrobe Curation &amp; Luxury Personal Styling</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Playfair Display + Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration strictly mapped to design tokens -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-fixed": "#271811",
+            "on-surface-variant": "#58423c",
+            "inverse-primary": "#ffb5a0",
+            "primary-fixed": "#ffdbd1",
+            "tertiary": "#8d4b00",
+            "outline-variant": "#dfc0b7",
+            "surface-container-high": "#ebe8e3",
+            "inverse-on-surface": "#f3f0eb",
+            "error": "#ba1a1a",
+            "on-background": "#1c1c19",
+            "surface-container-low": "#f6f3ee",
+            "on-primary-container": "#fffbff",
+            "on-primary-fixed": "#3b0900",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "tertiary-container": "#ab631c",
+            "tertiary-fixed": "#ffdcc3",
+            "outline": "#8b716a",
+            "secondary-fixed-dim": "#ddc0b6",
+            "surface-container": "#f0ede9",
+            "surface-variant": "#e5e2dd",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1c1c19",
+            "surface-tint": "#a73918",
+            "primary-container": "#c54f2c",
+            "primary-fixed-dim": "#ffb5a0",
+            "tertiary-fixed-dim": "#ffb77d",
+            "primary": "#a43716",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#2f1500",
+            "on-tertiary-fixed-variant": "#6e3900",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#745e55",
+            "surface": "#fcf9f4",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#56423b",
+            "background": "#fcf9f4",
+            "surface-container-highest": "#e5e2dd",
+            "on-tertiary-container": "#fffbff",
+            "surface-bright": "#fcf9f4",
+            "secondary": "#705a51",
+            "surface-dim": "#dcdad5",
+            "secondary-fixed": "#fadcd1",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#862201",
+            "secondary-container": "#f8d9cf",
+            "inverse-surface": "#31302d"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1.25rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2.5rem",
+            "margin": "3rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "gutter-mobile": "1rem"
+          },
+          "fontFamily": {
+            "display-lg": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Playfair Display"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "headline-xl": ["Playfair Display"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"]
+          },
+          "fontSize": {
+            "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "display-lg-mobile": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-fixed">
+<!-- 1. TopNavBar (Shared Component from JSON) -->
+<header class="docked full-width top-0 sticky z-50 bg-surface/95 dark:bg-inverse-surface/95 backdrop-blur-md shadow-sm border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-6 md:px-12 max-w-7xl mx-auto h-20">
+<!-- Brand Logo Anchor -->
+<div class="flex items-center gap-6">
+<a class="font-headline-md text-headline-md tracking-wider text-on-surface dark:text-inverse-on-surface uppercase font-bold hover:opacity-90 transition-opacity" href="#">
+          ATELIER CURATE
+        </a>
+<!-- Location Picker Dropdown Badge -->
+<div class="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/50 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="location_on">location_on</span>
+<span>New York / Milan / London</span>
+<span class="material-symbols-outlined text-[14px] text-outline" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Navigation Links from JSON -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 font-semibold font-label-lg text-label-lg transition-colors duration-200" href="#curators">
+          Curators
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface font-medium font-label-lg text-label-lg transition-colors duration-200" href="#edits">
+          Edits
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface font-medium font-label-lg text-label-lg transition-colors duration-200" href="#services">
+          Services
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface font-medium font-label-lg text-label-lg transition-colors duration-200" href="#pricing">
+          Pricing
+        </a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-on-surface font-medium font-label-lg text-label-lg transition-colors duration-200" href="#journal">
+          Journal
+        </a>
+</nav>
+<!-- Trailing Action Cluster from JSON -->
+<div class="flex items-center gap-3 md:gap-4">
+<button aria-label="Search" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</button>
+<a class="hidden sm:inline-flex text-on-surface hover:text-primary font-label-lg text-label-lg px-3 py-2 transition-colors duration-200" href="#">
+          Sign In
+        </a>
+<a class="bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-5 py-2.5 rounded-full shadow-sm hover:shadow transition-all duration-200 active:scale-95 inline-flex items-center justify-center" href="#booking">
+          Book a Stylist
+        </a>
+</div>
+</div>
+</header>
+<!-- 2. Hero Section with Prominent MakeMyTrip / District Style Search Console -->
+<section class="relative pt-12 md:pt-16 pb-20 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
+<!-- Subtle Ambient Glow -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[340px] bg-secondary-container/30 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+<div class="text-center max-w-4xl mx-auto space-y-4 mb-10">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-container/40 border border-outline-variant/60 text-on-secondary-fixed text-label-caps font-label-caps tracking-widest uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        Curated Wardrobe Architecture
+      </div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">
+        Curated Styling for Wherever Life Takes You.
+      </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+        Connect with world-class personal stylists, wardrobe curators, and fashion directors tailored to your destination, aesthetic, and calendar.
+      </p>
+</div>
+<!-- Segmented High-Utility Booking Console (Level 3 Elevation) -->
+<div class="bg-surface-container-lowest border border-outline-variant/70 rounded-2xl md:rounded-full p-2.5 md:p-3 shadow-xl max-w-5xl mx-auto transition-all duration-200" id="booking">
+<form class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-0 items-center">
+<!-- Segment 1: Occasion / Destination -->
+<div class="md:col-span-4 p-3.5 md:px-6 rounded-xl md:rounded-l-full hover:bg-surface-container-low transition-colors duration-150 cursor-pointer group">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5 text-[22px] group-hover:scale-110 transition-transform" data-icon="location_on">location_on</span>
+<div class="flex-1">
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Where or what occasion?</label>
+<input class="w-full bg-transparent border-0 p-0 text-on-surface font-title-md text-title-md placeholder:text-outline/70 focus:ring-0 truncate" placeholder="e.g. Amalfi Coast, Paris Fashion Week, Boardroom" type="text"/>
+</div>
+</div>
+</div>
+<div class="hidden md:block w-px h-10 bg-outline-variant/50"></div>
+<!-- Segment 2: Vibe & Aesthetic -->
+<div class="md:col-span-4 p-3.5 md:px-6 rounded-xl hover:bg-surface-container-low transition-colors duration-150 cursor-pointer group">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary mt-0.5 text-[22px] group-hover:scale-110 transition-transform" data-icon="palette">palette</span>
+<div class="flex-1">
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Vibe &amp; Aesthetic</label>
+<select class="w-full bg-transparent border-0 p-0 text-on-surface font-title-md text-title-md focus:ring-0 cursor-pointer">
+<option>Quiet Luxury &amp; Tailoring</option>
+<option>Resort Chic &amp; Coastal</option>
+<option>Executive Power Minimalist</option>
+<option>Avant-Garde Architectural</option>
+<option>Red Carpet &amp; Black Tie</option>
+</select>
+</div>
+</div>
+</div>
+<div class="hidden md:block w-px h-10 bg-outline-variant/50"></div>
+<!-- Segment 3: Styling Tier / Budget -->
+<div class="md:col-span-2 p-3.5 md:px-5 rounded-xl hover:bg-surface-container-low transition-colors duration-150 cursor-pointer group">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary mt-0.5 text-[22px]" data-icon="tune">tune</span>
+<div class="flex-1">
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Styling Tier</label>
+<select class="w-full bg-transparent border-0 p-0 text-on-surface font-title-md text-title-md focus:ring-0 cursor-pointer">
+<option>Essential Edit</option>
+<option>Full Capsule</option>
+<option>VIP Bespoke Atelier</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Action CTA Button -->
+<div class="md:col-span-2 p-1.5 flex justify-end">
+<button class="w-full h-14 bg-primary hover:bg-primary-container text-on-primary rounded-xl md:rounded-full font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 px-4" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+<span>Find Your Stylist</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Trust Proof Bar -->
+<div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="verified">verified</span>
+<span>4,800+ bespoke edits curated this month</span>
+</div>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]" data-icon="star" data-weight="fill">star</span>
+<span>Rated 4.9/5 by Vogue &amp; GQ clients</span>
+</div>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="shield">shield</span>
+<span>Satisfaction &amp; Fit Guaranteed</span>
+</div>
+</div>
+</section>
+<!-- 3. Horizontal Category Pills Bar -->
+<section class="border-y border-outline-variant/40 bg-surface-container-low/60 py-4">
+<div class="max-w-7xl mx-auto px-6 md:px-12 overflow-x-auto no-scrollbar">
+<div class="flex items-center gap-3 min-w-max">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-on-surface text-surface-bright font-label-lg text-label-lg shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="checkroom">checkroom</span>
+<span>Personal Styling</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="inventory_2">inventory_2</span>
+<span>Wardrobe Audit</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="luggage">luggage</span>
+<span>Vacation Packing</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="work">work</span>
+<span>Executive Tailoring</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="dry_cleaning">dry_cleaning</span>
+<span>Capsule Wardrobe</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="flare">flare</span>
+<span>Event &amp; Red Carpet</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="colorize">colorize</span>
+<span>Color Consultation</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="diamond">diamond</span>
+<span>Bridal Styling</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant hover:border-on-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="watch">watch</span>
+<span>Vintage Sourcing</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 4. 'Top Curators' Horizontal Showcase -->
+<section class="py-20 px-6 md:px-12 max-w-7xl mx-auto" id="curators">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<span class="text-primary font-label-caps text-label-caps uppercase tracking-wider">World-Class Talent</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mt-1">Meet Our Top Curators</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xl">
+          Vetted fashion directors, former luxury brand stylists, and personal shoppers with distinct aesthetic signatures.
+        </p>
+</div>
+<div class="flex items-center gap-3">
+<a class="font-label-lg text-label-lg text-primary hover:text-primary-container inline-flex items-center gap-1 font-semibold" href="#">
+          Explore All 120+ Curators
+          <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Curator Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: Elena Rostova -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Editorial portrait of fashion curator Elena Rostova wearing a sharp neutral blazer in an airy sunlit Milanese atelier with warm linen curtains. Warm golden hour ambient light casts gentle shadows, reflecting quiet luxury and sophisticated minimalist tailoring. The color palette emphasizes raw beige, deep espresso, and light ivory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVpnnqFp2S2IDGpmTE22QLiIJIq_mB_K0_PoVgPuvJKKiRgo6eimywaYI20FCwpVHAaIZmVOyTBVoqZ7TT-36TDQaq3zVoy85Iof1XcPKc9iPq7prmhCqXXvurca_A4Gy0O3P3r1lj8GpdQsUPbxS_K19TA6W7Fu-IjCIQUNKDmLJbU5srJvXcVfkK6tbggFqkBH7t_icaEvOQcWtX3OmdabThtWToRHqreynu996_bN4JG-pTjUPYgSIe2VofA_e4_G7evfkiBKWz"/>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-md px-2.5 py-1 rounded-full text-label-caps font-label-caps text-on-surface uppercase border border-outline-variant/40">
+            Vogue Featured
+          </div>
+<button aria-label="Favorite" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Milan &amp; Paris</span>
+<div class="flex items-center gap-1 text-label-md font-label-md text-on-surface font-semibold">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="star" data-weight="fill">star</span>
+<span>4.98</span>
+<span class="text-on-surface-variant font-normal">(142)</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Elena Rostova</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Quiet Luxury &amp; Tailoring</p>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant/40 flex items-center justify-between">
+<div>
+<span class="block font-label-caps text-label-caps text-outline uppercase">Rate</span>
+<span class="font-title-md text-title-md text-on-surface">From $280<span class="text-body-sm font-normal text-on-surface-variant">/edit</span></span>
+</div>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:text-primary text-on-surface font-label-md text-label-md transition-colors">
+              View Portfolio
+            </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Marcus Vance -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Distinguished portrait of Marcus Vance, a luxury menswear stylist wearing a bespoke double-breasted charcoal trench coat in a Mayfair London study. Soft moody daylight spills from Georgian sash windows onto rich mahogany shelves and tailored garments, capturing a refined Savile Row aesthetic in warm espresso and rich cream hues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIodcjAZfnbJtFmhrmh5iCmDXW0V2ZAJEXnjwRW0i6gBSOPpMcyXYSpcBBdtJ5ZhJYeifjBrog3ZfmtYC5PDvBlRj1lZ4U3BeHup_zYy7GVCZsqZtdMTRNrxNQ-kwe_P6eZJGaxH2v9IrUGQpiWa8EW39t4itVAaAOFBD292bXw66kTam1pQ-iOWhnCmrhIE122nGWWnVYqlKCRvZPm-gmFf8aGSVqRFkEj1JUnqFh1VCmtC4wRVADQbLJgCEJGccCrsGcqvBjDgAD"/>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-md px-2.5 py-1 rounded-full text-label-caps font-label-caps text-primary uppercase border border-outline-variant/40">
+            Top Rated 2024
+          </div>
+<button aria-label="Favorite" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-label-caps text-label-caps uppercase text-secondary">London &amp; NYC</span>
+<div class="flex items-center gap-1 text-label-md font-label-md text-on-surface font-semibold">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="star" data-weight="fill">star</span>
+<span>4.95</span>
+<span class="text-on-surface-variant font-normal">(98)</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Marcus Vance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Contemporary Executive &amp; Savile Row</p>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant/40 flex items-center justify-between">
+<div>
+<span class="block font-label-caps text-label-caps text-outline uppercase">Rate</span>
+<span class="font-title-md text-title-md text-on-surface">From $320<span class="text-body-sm font-normal text-on-surface-variant">/edit</span></span>
+</div>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:text-primary text-on-surface font-label-md text-label-md transition-colors">
+              View Portfolio
+            </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Sophie De la Tour -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Sunlit high-fashion portrait of Sophie De la Tour on a sun-drenched terrace overlooking the Mediterranean in Saint-Tropez. She wears a relaxed terracotta linen set and oversized sunglasses, exuding effortless Riviera chic. Warm Mediterranean sunlight illuminates soft terracotta tiles, white linen textures, and clear turquoise coastal vistas." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOM5GorrimXkmiNlX93QHfwkftIS9n2XZ2j1bL3Yy0gFALFYD3ia9GaYE_MVDK2DLlnC9hUwdoTSv59jsoIDyVwepnpjIDa9dVdnlruEao97RZMz6N_lDJzDJl7YPCerJub4XF4BI81v3u8zCkv1A2gaXng63b4QixVA8oV5uRS6nsi6DPRSJW82NU5rWp65Iahmke2YX6lPHDc7Dos__3vINpX_o3GlGXpzp6Lj8_L_506CuEGpev2C7r0haLTOoZZ5XExJwGEgQs"/>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-md px-2.5 py-1 rounded-full text-label-caps font-label-caps text-tertiary uppercase border border-outline-variant/40">
+            Celebrity Stylist
+          </div>
+<button aria-label="Favorite" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Riviera &amp; St. Tropez</span>
+<div class="flex items-center gap-1 text-label-md font-label-md text-on-surface font-semibold">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="star" data-weight="fill">star</span>
+<span>4.99</span>
+<span class="text-on-surface-variant font-normal">(210)</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Sophie De la Tour</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Resort Chic &amp; High Summer</p>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant/40 flex items-center justify-between">
+<div>
+<span class="block font-label-caps text-label-caps text-outline uppercase">Rate</span>
+<span class="font-title-md text-title-md text-on-surface">From $350<span class="text-body-sm font-normal text-on-surface-variant">/edit</span></span>
+</div>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:text-primary text-on-surface font-label-md text-label-md transition-colors">
+              View Portfolio
+            </button>
+</div>
+</div>
+</div>
+<!-- Card 4: Anya Chen -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Editorial portrait of stylist Anya Chen in a minimalist concrete Tokyo gallery, styled in an asymmetric pleated black kimono coat and structured accessories. High-key, diffused natural light illuminates the tranquil interior. The palette features muted slate, deep espresso, and crisp porcelain tones, evoking disciplined architectural fashion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLLK_Md4lmfb21Dh3CY0HxviSxUmnb6R_7c0NcuL1q1Jmgepg045UCnqK5bLSehNbpuxzW6IndSczAog6m5mvKgZ2dblwwuEqy8P1ntwCs-0lO_T5JI6AngUeTf94XKGzgwJB-cwA3p8q7j43CuvUhoKNxunwuU3_qCcsIJjoLArgXH2lG-qgfaV2URVBxthLKiacNzS9mLBLKJc6C6ILITdVt9Nf5Us8J-w9CiFyCC5QO9SBEBtbFKYDPyI8mwomsAiff6kGfnoly"/>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-md px-2.5 py-1 rounded-full text-label-caps font-label-caps text-on-surface uppercase border border-outline-variant/40">
+            Capsule Architect
+          </div>
+<button aria-label="Favorite" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Tokyo &amp; NYC</span>
+<div class="flex items-center gap-1 text-label-md font-label-md text-on-surface font-semibold">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="star" data-weight="fill">star</span>
+<span>4.97</span>
+<span class="text-on-surface-variant font-normal">(115)</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Anya Chen</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Architectural Minimal &amp; Capsule</p>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant/40 flex items-center justify-between">
+<div>
+<span class="block font-label-caps text-label-caps text-outline uppercase">Rate</span>
+<span class="font-title-md text-title-md text-on-surface">From $260<span class="text-body-sm font-normal text-on-surface-variant">/edit</span></span>
+</div>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:text-primary text-on-surface font-label-md text-label-md transition-colors">
+              View Portfolio
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. 'Discover by Vibe' Magazine-Style Asymmetric Bento Grid -->
+<section class="py-20 px-6 md:px-12 max-w-7xl mx-auto bg-surface-container-low/40 rounded-3xl border border-outline-variant/30" id="edits">
+<div class="mb-12">
+<span class="text-primary font-label-caps text-label-caps uppercase tracking-wider">Editorial Lookbooks</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mt-1">Discover by Vibe</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">
+        Curated wardrobe drops &amp; visual moodboards engineered for specific settings, climates, and social calendars.
+      </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- Big Hero Feature: The Amalfi Vacation Edit (Spans 7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl border border-outline-variant/70 overflow-hidden flex flex-col group shadow-sm hover:shadow-md transition-shadow">
+<div class="relative h-[380px] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Scenic editorial lookbook image of coastal luxury attire set against sun-drenched terracotta cliffs in Positano on the Amalfi coast. A model rests along a vintage wooden Riva boat wearing relaxed raw silk shirting, linen trousers, and woven leather sandals. Warm golden sunlight illuminates natural linen textures and azure Mediterranean waves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV9SwmlvRWFHstfTtdAjbzrYA42eDnUjBBE5cLZoFQngBpGIibyVJ0UW8bRytEpOTtK2eWS0FnqXXUm2DzWmfzGNa5_dDF0dsdEOpSOfRLkq8-nwVFFIFXnMEdrxiknvVtL2DQyjkkXcXXOLWb-XD4FyYK0wkMHOyfblfRemGqBRhEzIHfNQ3Qc88bCMfB73_CVb-Mk9RqJw4ARMF9etEw7F3BrUFcS82xbLbt1G0uz1DEEL15D6eMRTflE2RE4fUAyK3y6GqlcelE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps uppercase">
+            Curator Pick of the Week
+          </div>
+<div class="absolute bottom-6 left-6 right-6 text-on-primary">
+<span class="font-label-caps text-label-caps tracking-widest uppercase opacity-90">Resort &amp; Summer Edition</span>
+<h3 class="font-headline-lg text-headline-lg mt-1 text-on-primary">The Amalfi Vacation Edit</h3>
+</div>
+</div>
+<div class="p-8 flex-1 flex flex-col justify-between">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+            Sun-bleached linen, relaxed silk shirting, terracotta knitwear, and Riviera footwear handpicked by top coastal stylists. Designed for effortless transitions from beach club luncheons to cliffside twilight dinners.
+          </p>
+<div class="mt-6 pt-6 border-t border-outline-variant/40 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">14 Essential Pieces Curated</span>
+</div>
+<div class="flex items-center gap-3">
+<a class="px-5 py-2.5 rounded-full border border-outline-variant hover:border-on-surface font-label-lg text-label-lg text-on-surface transition-colors" href="#">
+                Shop the Lookbook
+              </a>
+<a class="px-5 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg transition-colors shadow-sm" href="#booking">
+                Book This Vibe
+              </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: 3 Stacked Editorial Features (Spans 5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Feature 2: Executive Power Tailoring -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 p-5 flex gap-5 items-center group hover:shadow-md transition-shadow">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Editorial close-up of a high-end bespoke double-breasted navy cashmere blazer with polished horn buttons paired with pleated wool trousers in a modern glass boardroom. Ambient daylight highlights exquisite fabric texture, hand-stitched lapels, and minimalist luxury leather accessories in a muted contemporary color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0LaSdO3QNwUBhjIjB3abNaWgKT25c614_GBaI3jchTfeNNck416A2Qc3-PavfQd9CIR1APsOIAU_e-G_7FM99D4lbLfdnIw0XiMmjgA40BDSbG0AX814YvDaHpA_GR_kYrJDTiIZpDF7h2X8ROo9UChtBEfzpb8XE5O-WOC1aC5SpC9NCzV5kudIhIZ0-RkH550UrwGKv6yWoVoNjgUKbN4L7geT1WgYXVElnH2hBn5UfG2irrDBW3uQp3XDjnqDd8ut7dpbWDuBC"/>
+</div>
+<div class="flex-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Corporate &amp; High Impact</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Executive Power Tailoring</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+              Precision double-breasted blazers, sharp cashmere trousers, and understated leather goods for boardroom impact.
+            </p>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary mt-2 font-semibold hover:underline" href="#">
+              Explore 18 Looks
+              <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Feature 3: Minimalist Weekend Retreat -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 p-5 flex gap-5 items-center group hover:shadow-md transition-shadow">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Moody still life editorial of monochromatic oatmeal knitwear, raw selvedge denim, and relaxed cashmere topcoat draped gracefully over an organic travertine bench in a quiet Scandinavian country lodge. Soft diffuse morning sunlight highlights tactile wool yarn and clean, timeless silhouettes in serene neutral earth tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHQMquU0wUG7OOZlfO-8SmpxVmW8A7TZdTXEGun-VbBaQkpnZm4TTkgmad5BuT1O7I5RmAwCPhpULxVkblFYgg-MpACjf3kdpN36xCqig162B2dmIjUu4xqY2wG4QbQSAA0k7yBUU47IcIbV3soc-3hSrUe4PHrCi8INyOSOJuQg8mVoA-FkolfCTZUx7-XOHGScN_Q3SRrVG_pw4NMMlXlaH9xMKhBGNjY6fLEH8-SCucsYf6_lYN64wuQfuYJZA1HuPnb49Ce4a6"/>
+</div>
+<div class="flex-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Casual Capsule</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Minimalist Weekend Retreat</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+              Monochromatic knitwear, raw denim, and relaxed luxury outerwear for effortless countryside ease.
+            </p>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary mt-2 font-semibold hover:underline" href="#">
+              Explore 12 Looks
+              <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Feature 4: Gala & Evening Elegance -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/60 p-5 flex gap-5 items-center group hover:shadow-md transition-shadow">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Stunning architectural evening wear editorial depicting a model in a sculptural black silk velvet column gown on a grand marble staircase in Paris at night. Warm chandelier candlelight casts dramatic luminous highlights across glistening silk, delicate jewelry, and deep espresso shadows, encapsulating opulent high-society glamour." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1gLdB31tWhSeO_21ZUJh_A8gNFlGqntXEeGy8q2RzKJJ1GFE8sQq9GFORfeuYy3y3p-YXf-cbCPy0_3pjeLTocuLyAk6tGdGXOXOMquP7_Upvq5NQXN7DUumRemz7eIosC8-6CVkm1cWwLOJSLgNxdp3M1DNfHL-i1n1FPwZlHcJaJ0TWepAA15pj6aPXSW5qID14sNuvBY87w2I1xBk2_CwJISSolD3iMIBr2bPnhYpW0LwEdxGl4NguGex4fGd9jTDXKzVQKw49"/>
+</div>
+<div class="flex-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Black Tie &amp; Gala</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Gala &amp; Evening Elegance</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+              Sculptural silhouettes, black-tie accents, and dramatic bespoke evening wear customized to strict event dress codes.
+            </p>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary mt-2 font-semibold hover:underline" href="#">
+              Explore 9 Looks
+              <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. How It Works Strip (District/MakeMyTrip Simplicity) -->
+<section class="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<span class="text-primary font-label-caps text-label-caps uppercase tracking-wider">Frictionless Experience</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mt-1">Effortless Luxury in Three Steps</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+        Bridging rapid discovery with bespoke couture attention.
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/50 relative flex flex-col items-start hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 rounded-full bg-secondary-container/60 text-on-secondary-fixed flex items-center justify-center font-headline-sm text-headline-sm mb-6">
+          1
+        </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Set Your Vibe &amp; Destination</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3">
+          Specify your trip itinerary, corporate requirements, or lifestyle shift. Input sizing, silhouette preferences, and favorite heritage or indie designers.
+        </p>
+<div class="mt-6 flex items-center gap-1.5 text-label-md font-label-md text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+<span>Takes under 3 minutes</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/50 relative flex flex-col items-start hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 rounded-full bg-secondary-container/60 text-on-secondary-fixed flex items-center justify-center font-headline-sm text-headline-sm mb-6">
+          2
+        </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Match with a Dedicated Curator</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3">
+          Our intelligent booking pod pairs you with a top editorial stylist based in your target geography who reviews your current closet and style goals.
+        </p>
+<div class="mt-6 flex items-center gap-1.5 text-label-md font-label-md text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+<span>1-on-1 private video atelier</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/50 relative flex flex-col items-start hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 rounded-full bg-secondary-container/60 text-on-secondary-fixed flex items-center justify-center font-headline-sm text-headline-sm mb-6">
+          3
+        </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Digital Closet &amp; Home Trunk</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3">
+          Receive an interactive digital moodboard with direct one-click boutique sourcing, or request a white-glove try-at-home curated trunk delivered to your suite.
+        </p>
+<div class="mt-6 flex items-center gap-1.5 text-label-md font-label-md text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_shipping">local_shipping</span>
+<span>Complimentary global courier returns</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Editorial Quote & Press Proof -->
+<section class="py-16 bg-surface-container border-y border-outline-variant/40">
+<div class="max-w-4xl mx-auto px-6 text-center">
+<span class="material-symbols-outlined text-primary text-[40px] opacity-80" data-icon="format_quote">format_quote</span>
+<blockquote class="font-display-lg text-[28px] md:text-[36px] leading-tight text-on-surface font-headline-lg mt-2 italic">
+        "Atelier Curate redefines how high-net-worth travelers and executives approach wardrobe assembly. It is equal parts Vogue editor and instant private concierge."
+      </blockquote>
+<div class="mt-6">
+<p class="font-title-md text-title-md text-on-surface font-semibold">Harper’s Bazaar International</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider mt-0.5">The Luxury Travel &amp; Style Index 2024</p>
+</div>
+</div>
+</section>
+<!-- 8. Footer (Shared Component from JSON) -->
+<footer class="docked full-width bottom bg-surface-container-low dark:bg-inverse-surface border-t border-outline-variant/40 dark:border-outline/30">
+<div class="w-full px-6 md:px-12 py-16 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+<!-- Brand & Mission Column -->
+<div class="max-w-sm space-y-4">
+<a class="font-headline-md text-headline-md tracking-widest text-on-surface dark:text-inverse-on-surface uppercase font-bold" href="#">
+          ATELIER CURATE
+        </a>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant">
+          Bespoke wardrobe curation, destination styling, and personal shopping powered by elite fashion directors across New York, London, Paris, and Milan.
+        </p>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-surface-variant pt-2">
+<a aria-label="Instagram" class="hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="photo_camera">photo_camera</span>
+</a>
+<a aria-label="Bookings" class="hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_month">calendar_month</span>
+</a>
+<a aria-label="Support" class="hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="support_agent">support_agent</span>
+</a>
+</div>
+</div>
+<!-- Links Column 1 -->
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-4">Discovery</h4>
+<ul class="space-y-2.5 font-body-sm text-body-sm">
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Editorial Journal</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Private Atelier</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Curator Network</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Style Archetypes</a></li>
+</ul>
+</div>
+<!-- Links Column 2 -->
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-4">Concierge</h4>
+<ul class="space-y-2.5 font-body-sm text-body-sm">
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Press Inquiries</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Client Concierge</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<!-- Newsletter / Private Drop Alert -->
+<div class="max-w-xs">
+<h4 class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface mb-2">The Weekly Edit</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant mb-4">
+          Receive private boutique releases, capsule guides, and curator spotlights every Thursday.
+        </p>
+<form class="flex items-center gap-2">
+<input class="bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2 text-body-sm font-body-sm text-on-surface w-full focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Your email" type="email"/>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-full font-label-md text-label-md transition-colors flex-shrink-0" type="button">
+            Join
+          </button>
+</form>
+</div>
+</div>
+<!-- Bottom Copyright Rule -->
+<div class="border-t border-outline-variant/30 py-6 px-6 md:px-12 max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-on-surface-variant dark:text-surface-variant gap-4">
+<div>
+        © 2024 Atelier Curate Inc. Bespoke Wardrobe Curation &amp; Luxury Personal Styling. All rights reserved.
+      </div>
+<div class="flex items-center gap-6">
+<span class="inline-flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+          Stylist Concierge Online (NY / LDN / MIL)
+        </span>
+</div>
+</div>
+</footer>
+</body></html>

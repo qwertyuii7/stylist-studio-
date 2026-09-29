@@ -2,233 +2,211 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Star, Sparkles, CalendarCheck, ShieldCheck } from "lucide-react";
-import { motion } from "framer-motion";
+import { Search, MapPin, Star, Sparkles, Navigation, LayoutGrid, Heart, ShieldCheck, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const fade = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-};
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
-
-const services = [
-  { title: "Personal Styling", img: "/stylist_1.jpg" },
-  { title: "Wardrobe Styling", img: "/service_wardrobe.jpg" },
-  { title: "Travel Wardrobe", img: "/service_travel.jpg" },
-  { title: "Image Consulting", img: "/service_consulting.jpg" },
-  { title: "Personal Shopper", img: "/service_shopping.jpg" },
-  { title: "Closet Organization", img: "/service_wardrobe.jpg" },
-];
-
-const stats = [
-  { icon: Star, value: "150+", label: "Expert Stylists" },
-  { icon: Sparkles, value: "10K+", label: "Looks Curated" },
-  { icon: CalendarCheck, value: "24hr", label: "Avg. Turnaround" },
-  { icon: ShieldCheck, value: "100%", label: "Satisfaction" },
-];
+import StylistCard from "@/components/StylistCard";
+import { mockStylists, coreServices } from "@/data/mockDatabase";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFAFA] text-[#1A1A1A]">
+    <div className="flex flex-col min-h-screen bg-background text-foreground antialiased selection:bg-accent/20">
       <Navbar />
 
       <main className="flex-grow">
-        {/* ─── HERO ─── */}
-        <section className="relative h-[92vh] min-h-[520px] max-h-[860px] flex items-center overflow-hidden bg-[#111]">
-          <motion.div
-            initial={{ scale: 1.08, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.55 }}
-            transition={{ duration: 1.6, ease: "easeOut" }}
-            className="absolute inset-0"
-          >
-            <Image src="/hero.jpg" alt="Fashion editorial" fill className="object-cover" priority />
-          </motion.div>
+        {/* 2. Hero Section with Prominent Segmented Search Console (Stitch Inspired) */}
+        <section className="relative pt-12 md:pt-20 pb-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/4"></div>
+          
+          <div className="text-center max-w-4xl mx-auto space-y-4 mb-12">
+            <h1 className="font-serif text-5xl md:text-7xl leading-tight text-foreground tracking-tight">
+              Curated Styling for Wherever Life Takes You.
+            </h1>
+            <p className="text-text-secondary text-lg max-w-2xl mx-auto mt-4">
+              Connect with world-class personal stylists, wardrobe curators, and fashion directors tailored to your destination, aesthetic, and calendar.
+            </p>
+          </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 w-full">
-            <motion.div initial="hidden" animate="show" variants={stagger} className="max-w-2xl">
-              <motion.p variants={fade} className="text-white/60 text-sm uppercase tracking-[0.2em] mb-4">
-                Personal Styling Platform
-              </motion.p>
-              <motion.h1 variants={fade} className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] mb-6">
-                Your Wardrobe,
-                <br />
-                Reimagined.
-              </motion.h1>
-              <motion.p variants={fade} className="text-white/70 text-base md:text-lg max-w-md mb-10 leading-relaxed">
-                Connect with expert stylists for personal styling, wardrobe audits, travel packing, and luxury shopping — all in one platform.
-              </motion.p>
-              <motion.div variants={fade} className="flex flex-wrap gap-4">
-                <Link
-                  href="/book"
-                  className="inline-flex items-center gap-2 bg-white text-[#1A1A1A] px-7 py-3.5 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-gray-100 transition-colors"
-                >
-                  Book a Stylist <ArrowRight size={16} />
+          {/* District/MakeMyTrip Style Floating Booking Console */}
+          <div className="bg-white border border-border rounded-2xl md:rounded-full p-2 shadow-xl max-w-5xl mx-auto relative z-10 mt-8">
+            <form className="flex flex-col md:flex-row items-center w-full">
+              
+              {/* Segment 1: Occasion / Destination */}
+              <div className="flex-1 w-full px-4 py-3 md:px-6 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors duration-150 cursor-pointer flex items-center gap-4">
+                <MapPin className="text-accent shrink-0" size={24} />
+                <div className="flex-1 text-left">
+                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Where or what occasion?</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Amalfi Coast, Paris Fashion Week" 
+                    className="w-full bg-transparent border-0 p-0 text-foreground font-medium placeholder:text-text-muted focus:ring-0 focus:outline-none truncate text-sm"
+                  />
+                </div>
+              </div>
+              
+              <div className="hidden md:block w-px h-10 bg-border shrink-0 mx-2"></div>
+              
+              {/* Segment 2: Vibe & Aesthetic */}
+              <div className="flex-1 w-full px-4 py-3 md:px-6 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors duration-150 cursor-pointer flex items-center gap-4">
+                <LayoutGrid className="text-foreground shrink-0" size={24} />
+                <div className="flex-1 text-left pr-4">
+                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Vibe & Aesthetic</label>
+                  <select className="w-full bg-transparent border-0 p-0 text-foreground font-medium focus:ring-0 focus:outline-none cursor-pointer text-sm truncate">
+                    <option>Quiet Luxury & Tailoring</option>
+                    <option>Resort Chic & Coastal</option>
+                    <option>Executive Power Minimalist</option>
+                    <option>Avant-Garde Architectural</option>
+                    <option>Red Carpet & Black Tie</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Action CTA Button */}
+              <div className="w-full md:w-auto p-1 md:pl-2 shrink-0">
+                <Link href="/explore" className="w-full md:w-auto bg-accent hover:bg-accent-hover text-white rounded-xl md:rounded-full font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 px-8 py-4 shadow-md transition-colors whitespace-nowrap">
+                  <Search size={18} /> Find Stylist
                 </Link>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-2 border border-white/40 text-white px-7 py-3.5 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-white/10 transition-colors"
-                >
-                  Explore Services
-                </Link>
-              </motion.div>
-            </motion.div>
+              </div>
+            </form>
+          </div>
+
+          {/* Trust Proof Bar */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm font-medium text-text-secondary">
+            <div className="flex items-center gap-2"><Sparkles className="text-accent" size={16} /> <span>4,800+ bespoke edits curated</span></div>
+            <span className="hidden sm:inline text-border">•</span>
+            <div className="flex items-center gap-2"><Star className="text-accent fill-accent" size={16} /> <span>Rated 4.9/5 by Vogue clients</span></div>
+            <span className="hidden sm:inline text-border">•</span>
+            <div className="flex items-center gap-2"><ShieldCheck className="text-foreground" size={16} /> <span>Satisfaction Guaranteed</span></div>
           </div>
         </section>
 
-        {/* ─── STATS BAR ─── */}
-        <section className="bg-white border-b border-[#E8E8E8]">
-          <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((s, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="flex items-center gap-4"
-              >
-                <div className="w-10 h-10 rounded-full bg-[#F5F3F0] flex items-center justify-center shrink-0">
-                  <s.icon size={18} className="text-[#1A1A1A]" />
-                </div>
-                <div>
-                  <div className="text-xl font-semibold leading-tight">{s.value}</div>
-                  <div className="text-xs text-[#999] uppercase tracking-[0.1em]">{s.label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── SERVICES ─── */}
-        <section className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
-          <motion.div
-            initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={fade}
-            className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-14"
-          >
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-[#999] mb-2">What We Offer</p>
-              <h2 className="font-serif text-3xl md:text-4xl">Our Services</h2>
-            </div>
-            <Link
-              href="/services"
-              className="group text-[13px] uppercase tracking-[0.1em] font-medium text-[#1A1A1A] flex items-center gap-2"
-            >
-              View All <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={stagger}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
-          >
-            {services.map((s, i) => (
-              <motion.div key={i} variants={fade}>
-                <Link href="/services" className="group block relative aspect-[4/5] overflow-hidden bg-[#E8E8E8]">
-                  <Image src={s.img} alt={s.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-                    <h3 className="text-white font-serif text-lg md:text-xl">{s.title}</h3>
-                    <span className="text-white/60 text-xs uppercase tracking-[0.1em] flex items-center gap-1 mt-1 group-hover:text-white/90 transition-colors">
-                      Learn more <ArrowRight size={12} />
-                    </span>
-                  </div>
+        {/* 3. Horizontal Category Pills Bar */}
+        <section className="border-y border-border bg-surface-muted py-4 sticky top-16 z-40 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-3 min-w-max pb-1">
+              {coreServices.map((service, idx) => (
+                <Link 
+                  href="/explore" 
+                  key={service.id} 
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-bold transition-colors ${
+                    idx === 0 
+                      ? "bg-foreground text-white border-foreground" 
+                      : "bg-white border-border text-text-secondary hover:border-foreground hover:text-foreground"
+                  }`}
+                >
+                  {service.title}
                 </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
-
-        {/* ─── HOW IT WORKS ─── */}
-        <section className="bg-[#F5F3F0] py-20 md:py-28 px-5 md:px-8">
-          <div className="max-w-7xl mx-auto">
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fade} className="text-center mb-16">
-              <p className="text-xs uppercase tracking-[0.2em] text-[#999] mb-2">Simple & Seamless</p>
-              <h2 className="font-serif text-3xl md:text-4xl">How It Works</h2>
-            </motion.div>
-            <motion.div
-              initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
-            >
-              {[
-                { step: "01", title: "Tell Us About You", desc: "Complete a quick intake — your occasion, style preferences, and budget comfort." },
-                { step: "02", title: "Get Matched", desc: "We pair you with the right stylist from our curated roster based on your needs." },
-                { step: "03", title: "Get Styled", desc: "Receive personalized recommendations via WhatsApp. Book recurring sessions to save time." },
-              ].map((item, i) => (
-                <motion.div key={i} variants={fade} className="bg-white p-8 md:p-10 border border-[#E8E8E8]">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#BBB] font-medium">{item.step}</span>
-                  <h3 className="font-serif text-xl mt-3 mb-3">{item.title}</h3>
-                  <p className="text-[#777] text-sm leading-relaxed">{item.desc}</p>
-                </motion.div>
               ))}
-            </motion.div>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fade} className="text-center mt-12">
-              <Link
-                href="/book"
-                className="inline-flex items-center gap-2 bg-[#1A1A1A] text-white px-7 py-3.5 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-[#333] transition-colors"
-              >
-                Start Your Journey <ArrowRight size={16} />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ─── SIGNATURE COLLECTION TEASER ─── */}
-        <section className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="aspect-[4/5] relative overflow-hidden bg-[#E8E8E8]"
-            >
-              <Image src="/stylist_2.jpg" alt="Signature Collection" fill className="object-cover" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-            >
-              <p className="text-xs uppercase tracking-[0.2em] text-[#999] mb-2">Exclusive Tier</p>
-              <h2 className="font-serif text-3xl md:text-4xl mb-6 leading-snug">The Signature Collection</h2>
-              <p className="text-[#777] leading-relaxed mb-8 max-w-md">
-                Access our top-tier network of celebrity stylists and influencers. Magazine-featured curators who shape personal brands at the highest level.
-              </p>
-              <Link
-                href="/signature"
-                className="inline-flex items-center gap-2 bg-[#1A1A1A] text-white px-7 py-3.5 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-[#333] transition-colors"
-              >
-                Enter Collection <ArrowRight size={16} />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ─── SUBSCRIPTION CTA ─── */}
-        <section className="bg-[#1A1A1A] text-white py-20 md:py-24 px-5 md:px-8">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-2">Recurring Styling</p>
-              <h2 className="font-serif text-3xl md:text-4xl mb-6 leading-snug">Plan Your Week, <br className="hidden md:block" /> Every Week.</h2>
-              <p className="text-white/50 leading-relaxed max-w-md mb-8">
-                Subscribe to periodic bookings — a Personal Shopper booked every Friday, or a full weekly wardrobe plan every Sunday. Reduced stress, cost savings, and more calm.
-              </p>
-              <Link
-                href="/book"
-                className="inline-flex items-center gap-2 bg-white text-[#1A1A1A] px-7 py-3.5 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-gray-200 transition-colors"
-              >
-                Book Recurring <ArrowRight size={16} />
-              </Link>
             </div>
-            <div className="aspect-[4/3] relative overflow-hidden bg-[#333]">
-              <Image src="/service_consulting.jpg" alt="Recurring Styling" fill className="object-cover opacity-80" />
+          </div>
+        </section>
+
+        {/* 4. 'Top Curators' Horizontal Showcase */}
+        <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <span className="text-accent font-bold text-xs uppercase tracking-widest">World-Class Talent</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-2">Meet Our Top Curators</h2>
+              <p className="text-text-secondary mt-3 max-w-xl">
+                Vetted fashion directors, former luxury brand stylists, and personal shoppers with distinct aesthetic signatures.
+              </p>
+            </div>
+            <Link href="/explore" className="font-bold text-sm text-accent hover:text-accent-hover inline-flex items-center gap-1 uppercase tracking-wider">
+              Explore All Curators <ChevronRight size={16} />
+            </Link>
+          </div>
+          
+          <div className="flex gap-6 overflow-x-auto pb-8 -mx-6 px-6 md:-mx-12 md:px-12 no-scrollbar snap-x snap-mandatory">
+            {mockStylists.map(stylist => (
+              <div key={stylist.id} className="min-w-[300px] md:min-w-[340px] snap-start">
+                <StylistCard stylist={stylist} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 5. 'Discover by Vibe' Magazine-Style Asymmetric Bento Grid */}
+        <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-surface-muted rounded-3xl border border-border mb-24">
+          <div className="mb-14 text-center md:text-left">
+            <span className="text-accent font-bold text-xs uppercase tracking-widest">Editorial Lookbooks</span>
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-2">Discover by Vibe</h2>
+            <p className="text-text-secondary mt-3 max-w-2xl mx-auto md:mx-0">
+              Curated wardrobe drops & visual moodboards engineered for specific settings, climates, and social calendars.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Big Hero Feature (Spans 7 cols) */}
+            <div className="lg:col-span-7 bg-white rounded-2xl border border-border overflow-hidden flex flex-col group shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative h-[400px] overflow-hidden">
+                <Image src="/service_travel.jpg" alt="Amalfi Vacation" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                <div className="absolute top-4 left-4 bg-accent text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                  Curator Pick of the Week
+                </div>
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <span className="text-[10px] font-bold tracking-widest uppercase opacity-90">Resort & Summer Edition</span>
+                  <h3 className="font-serif text-3xl md:text-4xl mt-1">The Amalfi Vacation Edit</h3>
+                </div>
+              </div>
+              <div className="p-8 flex-1 flex flex-col justify-between">
+                <p className="text-text-secondary leading-relaxed">
+                  Sun-bleached linen, relaxed silk shirting, terracotta knitwear, and Riviera footwear handpicked by top coastal stylists. Designed for effortless transitions from beach club luncheons to cliffside twilight dinners.
+                </p>
+                <div className="mt-8 pt-6 border-t border-border-light flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent"></span>
+                    <span className="text-sm font-bold text-foreground">14 Essential Pieces Curated</span>
+                  </div>
+                  <Link href="/explore" className="px-6 py-3 rounded-full bg-foreground hover:bg-dark-hover text-white text-xs font-bold uppercase tracking-wider transition-colors">
+                    Book This Vibe
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Stacked Features (Spans 5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              
+              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
+                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
+                  <Image src="/stylist_2.jpg" alt="Executive Tailoring" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Corporate & High Impact</span>
+                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Executive Power Tailoring</h4>
+                  <p className="text-xs text-text-secondary line-clamp-2">
+                    Precision double-breasted blazers, sharp cashmere trousers, and understated leather goods for boardroom impact.
+                  </p>
+                </div>
+              </Link>
+
+              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
+                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
+                  <Image src="/hero.jpg" alt="Minimalist Retreat" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Casual Capsule</span>
+                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Minimalist Weekend Retreat</h4>
+                  <p className="text-xs text-text-secondary line-clamp-2">
+                    Monochromatic knitwear, raw denim, and relaxed luxury outerwear for effortless countryside ease.
+                  </p>
+                </div>
+              </Link>
+
+              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
+                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
+                  <Image src="/stylist_1.jpg" alt="Gala Elegance" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                </div>
+                <div className="flex-1">
+                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Black Tie & Gala</span>
+                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Gala & Evening Elegance</h4>
+                  <p className="text-xs text-text-secondary line-clamp-2">
+                    Sculptural silhouettes, black-tie accents, and dramatic bespoke evening wear customized to strict event dress codes.
+                  </p>
+                </div>
+              </Link>
+              
             </div>
           </div>
         </section>

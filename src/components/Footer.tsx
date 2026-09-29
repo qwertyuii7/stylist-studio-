@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1A1A1A] text-white">
+    <footer className="bg-foreground text-white">
       {/* Newsletter */}
-      <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20 border-b border-[#333]">
+      <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 md:py-20 border-b border-dark-hover">
         <div className="max-w-xl">
           <h3 className="font-serif text-2xl md:text-3xl mb-3">Join the Inner Circle</h3>
           <p className="text-white/50 text-sm mb-8 leading-relaxed">
@@ -18,7 +18,7 @@ export default function Footer() {
             />
             <button
               type="submit"
-              className="bg-white text-[#1A1A1A] px-6 py-3 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-gray-200 transition-colors whitespace-nowrap"
+              className="bg-white text-foreground px-6 py-3 text-[13px] uppercase tracking-[0.1em] font-medium hover:bg-gray-200 transition-colors whitespace-nowrap"
             >
               Subscribe
             </button>
@@ -38,10 +38,10 @@ export default function Footer() {
           <div>
             <h4 className="text-[11px] uppercase tracking-[0.15em] font-medium text-white/60 mb-5">Platform</h4>
             <ul className="space-y-3 text-sm text-white/40">
-              <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-              <li><Link href="/curators" className="hover:text-white transition-colors">The Roster</Link></li>
-              <li><Link href="/signature" className="hover:text-white transition-colors">Signature</Link></li>
-              <li><Link href="/book" className="hover:text-white transition-colors">Book Now</Link></li>
+              <li><Link href="/explore" className="hover:text-white transition-colors">Explore Stylists</Link></li>
+              <li><Link href="/cart" className="hover:text-white transition-colors">Your Cart</Link></li>
+              <li><Link href="/signature" className="hover:text-white transition-colors">Signature Collection</Link></li>
+              <li><Link href="/stylist-portal" className="hover:text-white transition-colors">Become a Curator</Link></li>
             </ul>
           </div>
           <div>
@@ -64,9 +64,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[#333] py-6 px-5 md:px-8">
-        <div className="max-w-7xl mx-auto text-center text-white/30 text-[11px] uppercase tracking-[0.15em]">
-          &copy; {new Date().getFullYear()} Curate Styling Platform. All rights reserved.
+      <div className="border-t border-dark-hover py-6 px-5 md:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-[11px] uppercase tracking-[0.15em]">
+          <div>&copy; {new Date().getFullYear()} Curate Styling Platform. All rights reserved.</div>
+          <Link href="/admin" className="hover:text-white transition-colors">
+            Admin Portal
+          </Link>
         </div>
       </div>
     </footer>
