@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { mockStylists, coreServices } from "@/data/mockDatabase";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Star, MapPin, MessageCircle, Calendar, Video, MapPin as Pin, X, CheckCircle2, ShieldCheck, Clock, Quote, Sparkles } from "lucide-react";
+import { 
+  Star, MapPin, MessageCircle, Calendar, Video, MapPin as Pin, X, 
+  CheckCircle2, ShieldCheck, Clock, Sparkles, ChevronLeft, 
+  ShoppingBag, Plus, Minus, Heart, Share2, Globe, Phone, ArrowRight
+} from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 
 export default function StylistProfilePage() {
@@ -14,17 +19,23 @@ export default function StylistProfilePage() {
   const router = useRouter();
   const stylist = mockStylists.find(s => s.id === id);
   const addItem = useCartStore(state => state.addItem);
+  const cartItems = useCartStore(state => state.items);
 
-  // Booking Modal State
+  // Booking State
   const [selectedService, setSelectedService] = useState<any>(null);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [mode, setMode] = useState<'video' | 'in-person'>('video');
+  const [addedToCart, setAddedToCart] = useState(false);
+  const [activeTab, setActiveTab] = useState<'services' | 'reviews' | 'about'>('services');
 
   if (!stylist) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-        <h1>Stylist not found</h1>
+        <div className="text-center">
+          <h1 className="font-serif text-3xl mb-3">Stylist not found</h1>
+          <Link href="/explore" className="text-accent font-medium hover:underline">← Back to Explore</Link>
+        </div>
       </div>
     );
   }
@@ -44,296 +55,429 @@ export default function StylistProfilePage() {
       mode
     });
     
-    setSelectedService(null);
-    setDate("");
-    setTime("");
-    setMode('video');
+    setAddedToCart(true);
+    setTimeout(() => {
+      setSelectedService(null);
+      setAddedToCart(false);
+      setDate("");
+      setTime("");
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col relative selection:bg-accent/20">
+    <div className="min-h-screen bg-background text-foreground flex flex-col relative">
       <Navbar />
 
       <main className="flex-grow">
         
-        {/* BREADCRUMB */}
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 border-b border-border">
-          <div className="text-xs font-bold uppercase tracking-widest text-text-muted flex gap-2">
-            <span>Home</span> <span className="text-border">/</span> 
-            <span>Curators</span> <span className="text-border">/</span> 
-            <span className="text-foreground">{stylist.name}</span>
-          </div>
+        {/* Back button */}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4">
+          <button onClick={() => router.back()} className="flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-foreground transition-colors">
+            <ChevronLeft size={18} /> Back
+          </button>
         </div>
 
-        {/* 1. HERO SECTION (Split Layout) */}
-        <section className="max-w-7xl mx-auto w-full px-6 md:px-12 py-12 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-          
-          {/* Left: Medium Portrait */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl bg-surface-muted max-w-md mx-auto lg:mx-0 border border-border">
-              <Image src={stylist.imageUrl} alt={stylist.name} fill className="object-cover" priority />
-              {/* Floating Badge */}
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-foreground uppercase border border-border shadow-sm flex items-center gap-1.5">
-                <ShieldCheck size={14} className="text-accent" /> Vogue Featured
-              </div>
-            </div>
-          </div>
-          
-          {/* Right: Bio & Booking CTA */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            
-            <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-text-secondary mb-4 uppercase tracking-widest">
-              <span className="flex items-center gap-1 text-accent"><MapPin size={16}/> {stylist.destinations.join(' & ')}</span>
-              <span className="text-border">•</span>
-              <span className="flex items-center gap-1">
-                <Star size={14} className="fill-accent text-accent" />
-                {stylist.rating} ({stylist.reviewCount} Reviews)
-              </span>
-            </div>
-            
-            <h1 className="font-serif text-5xl lg:text-6xl text-foreground mb-4 leading-tight">{stylist.name}</h1>
-            
-            <p className="font-serif text-2xl text-text-secondary italic mb-6">
-              "Bridging architectural minimalism with effortless European tailoring."
-            </p>
-
-            <p className="text-base leading-relaxed text-text-secondary mb-8 max-w-2xl">
-              {stylist.bio}
-            </p>
-            
-            {/* Quick Keywords */}
-            <div className="flex flex-wrap gap-2 mb-10">
-              {stylist.keywords.map(kw => (
-                <span key={kw} className="bg-surface-muted border border-border text-foreground px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                  {kw}
-                </span>
-              ))}
-            </div>
-            
-            {/* Direct Booking Action Area */}
-            <div className="bg-white border border-border rounded-2xl p-6 shadow-md max-w-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl -z-10 translate-x-1/2 -translate-y-1/2"></div>
-              
-              <div className="flex items-center gap-2 text-xs font-bold text-accent uppercase tracking-wider mb-5">
-                <Calendar size={14} /> Next open slot: Tomorrow at 3:00 PM
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <button 
-                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex-1 bg-accent hover:bg-accent-hover text-white px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm text-center"
-                >
-                  Book 1-on-1 Consultation
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 bg-white border border-border hover:border-foreground text-foreground px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
-                  <MessageCircle size={16} /> Pre-conversation
-                </button>
-              </div>
-
-              <div className="flex items-center gap-4 text-xs font-medium text-text-secondary">
-                <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-accent"/> Complimentary 15-min intro</span>
-                <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-foreground"/> Satisfaction Guarantee</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 2. PORTFOLIO GALLERY (Editorial Bento Grid) */}
-        <section className="bg-surface-muted py-24 border-y border-border">
-          <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <span className="text-accent font-bold text-xs uppercase tracking-widest">Editorial Lookbook</span>
-                <h2 className="font-serif text-4xl text-foreground mt-2">Curated Style Capsules</h2>
-              </div>
-              <button className="hidden md:block text-xs font-bold uppercase tracking-wider border-b border-foreground pb-1 hover:text-accent hover:border-accent transition-colors">
-                View Full Lookbook (24 Edits)
-              </button>
-            </div>
-            
-            {/* Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[800px] md:h-[600px]">
-              {stylist.portfolioImages[0] && (
-                <div className="md:col-span-8 relative rounded-2xl overflow-hidden group shadow-sm">
-                  <Image src={stylist.portfolioImages[0]} alt="Portfolio 1" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 text-white">
-                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Milan Fashion Week</span>
-                    <h3 className="font-serif text-3xl mt-1">Bespoke Cashmere & Silk Transition</h3>
-                    <p className="text-sm opacity-90 mt-2 flex items-center gap-2"><Sparkles size={14}/> 12-Piece Wardrobe Build</p>
-                  </div>
+        {/* ===== STYLIST HEADER ===== */}
+        <section className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-8">
+          <div className="bg-white border border-border rounded-2xl p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              {/* Profile Photo */}
+              <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shrink-0 border border-border">
+                <Image src={stylist.imageUrl} alt={stylist.name} fill className="object-cover" priority />
+                <div className="absolute bottom-2 right-2 bg-success text-white px-2 py-0.5 rounded-full text-[10px] font-semibold flex items-center gap-1">
+                  <CheckCircle2 size={10} /> Verified
                 </div>
-              )}
-              <div className="md:col-span-4 flex flex-col gap-4">
-                {stylist.portfolioImages[1] && (
-                  <div className="flex-1 relative rounded-2xl overflow-hidden group shadow-sm">
-                    <Image src={stylist.portfolioImages[1]} alt="Portfolio 2" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="font-serif text-xl">Lake Como Retreat</h3>
-                    </div>
-                  </div>
-                )}
-                {stylist.portfolioImages[2] && (
-                  <div className="flex-1 relative rounded-2xl overflow-hidden group shadow-sm">
-                    <Image src={stylist.portfolioImages[2]} alt="Portfolio 3" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="font-serif text-xl">Executive Minimal</h3>
-                    </div>
-                  </div>
-                )}
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* 3. BESPOKE SERVICES */}
-        <section id="services" className="max-w-7xl mx-auto px-6 md:px-12 py-24">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="text-accent font-bold text-xs uppercase tracking-widest">Private Styling</span>
-            <h2 className="font-serif text-4xl text-foreground mt-2 mb-4">Bespoke Services</h2>
-            <p className="text-text-secondary">Elevated personal curation with dedicated turnaround times and transparent pricing structures.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stylist.services.map((s, idx) => {
-              const baseService = coreServices.find(cs => cs.id === s.serviceId);
-              if (!baseService) return null;
-              const price = s.customPrice || baseService.basePrice;
-              
-              return (
-                <div key={s.serviceId} className="bg-white border border-border rounded-2xl p-8 hover:border-foreground transition-colors shadow-sm flex flex-col group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <span className="font-serif text-6xl text-foreground">0{idx + 1}</span>
+              {/* Info */}
+              <div className="flex-grow">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h1 className="font-serif text-2xl md:text-3xl text-foreground mb-1">{stylist.name}</h1>
+                    <p className="text-sm text-text-secondary italic mb-3">"{stylist.tagline}"</p>
                   </div>
-                  
-                  <h3 className="font-serif text-2xl text-foreground mb-3 relative z-10">{baseService.title}</h3>
-                  <p className="text-sm text-text-secondary mb-8 flex-grow relative z-10 leading-relaxed">{baseService.description}</p>
-                  
-                  <div className="space-y-3 mb-8 relative z-10">
-                    <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
-                      <Clock size={14} className="text-accent" /> Turnaround: 3-5 Days
-                    </div>
-                    <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
-                      <CheckCircle2 size={14} className="text-accent" /> 1-on-1 Virtual Audit included
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between pt-6 border-t border-border-light relative z-10">
-                    <div>
-                      <span className="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Investment</span>
-                      <span className="font-serif text-2xl text-foreground">${price}</span>
-                    </div>
-                    <button 
-                      onClick={() => setSelectedService({ id: baseService.id, title: baseService.title, price })}
-                      className="bg-foreground hover:bg-dark-hover text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm"
-                    >
-                      Select Date
+                  <div className="hidden md:flex items-center gap-2">
+                    <button className="p-2.5 border border-border rounded-xl hover:bg-surface-muted transition-colors">
+                      <Heart size={18} className="text-text-muted" />
+                    </button>
+                    <button className="p-2.5 border border-border rounded-xl hover:bg-surface-muted transition-colors">
+                      <Share2 size={18} className="text-text-muted" />
                     </button>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-        </section>
 
-        {/* 4. TESTIMONIALS */}
-        <section className="bg-foreground text-white py-24">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
-            <Quote className="mx-auto text-accent mb-6" size={40} opacity={0.8} />
-            <h2 className="font-serif text-3xl md:text-5xl max-w-4xl mx-auto leading-tight italic">
-              "Working with {stylist.name.split(' ')[0]} redefined how I approach my travel wardrobe. It was like having a Vogue editor as my instant private concierge."
-            </h2>
-            <div className="mt-8">
-              <p className="font-bold text-sm uppercase tracking-wider text-white">Managing Partner, Financial Times</p>
-              <p className="text-xs text-text-muted mt-1 uppercase tracking-widest">London, UK</p>
+                {/* Stats row */}
+                <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
+                  <span className="flex items-center gap-1.5 bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full font-medium">
+                    <Star size={14} className="fill-amber-400 text-amber-400" /> {stylist.rating} ({stylist.reviewCount} reviews)
+                  </span>
+                  <span className="flex items-center gap-1.5 text-text-secondary">
+                    <MapPin size={14} /> {stylist.destinations.join(', ')}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-text-secondary">
+                    <Clock size={14} /> {stylist.experience}
+                  </span>
+                </div>
+
+                {/* Quick info pills */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {stylist.languages.map(lang => (
+                    <span key={lang} className="bg-surface-muted text-text-secondary px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                      <Globe size={12} /> {lang}
+                    </span>
+                  ))}
+                  <span className="bg-surface-muted text-text-secondary px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                    <Calendar size={12} /> {stylist.availability}
+                  </span>
+                </div>
+
+                {/* Keywords */}
+                <div className="flex flex-wrap gap-2">
+                  {stylist.keywords.map(kw => (
+                    <span key={kw} className="bg-accent/5 text-accent border border-accent/10 px-3 py-1 rounded-full text-xs font-medium capitalize">
+                      {kw}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
+        {/* ===== TAB NAVIGATION ===== */}
+        <div className="sticky top-16 z-30 bg-background border-b border-border">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="flex gap-0">
+              {[
+                { key: 'services', label: 'Services & Pricing', icon: <ShoppingBag size={16} /> },
+                { key: 'reviews', label: 'Reviews', icon: <Star size={16} /> },
+                { key: 'about', label: 'About', icon: <MessageCircle size={16} /> },
+              ].map(tab => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as any)}
+                  className={`flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 transition-all ${
+                    activeTab === tab.key 
+                      ? 'border-accent text-accent' 
+                      : 'border-transparent text-text-muted hover:text-foreground hover:border-border'
+                  }`}
+                >
+                  {tab.icon} {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ===== TAB CONTENT ===== */}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
+          
+          {/* SERVICES TAB */}
+          {activeTab === 'services' && (
+            <div className="animate-fade-in">
+              <div className="mb-6">
+                <h2 className="font-serif text-2xl text-foreground mb-2">Select a Service</h2>
+                <p className="text-sm text-text-secondary">Choose the service you need, then pick a date and time to book.</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {stylist.services.map((s) => {
+                  const baseService = coreServices.find(cs => cs.id === s.serviceId);
+                  if (!baseService) return null;
+                  const price = s.customPrice || baseService.basePrice;
+                  
+                  const isInCart = cartItems.some(
+                    item => item.serviceId === baseService.id && item.stylistId === stylist.id
+                  );
+                  
+                  return (
+                    <div 
+                      key={s.serviceId} 
+                      className={`bg-white border rounded-2xl p-6 transition-all flex flex-col ${
+                        isInCart 
+                          ? 'border-success/30 bg-success-light/30' 
+                          : 'border-border hover:border-accent/30 hover:shadow-md card-hover'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <span className="text-2xl">{baseService.icon}</span>
+                        {isInCart && (
+                          <span className="text-[10px] font-semibold text-success bg-success-light px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <CheckCircle2 size={12} /> In Cart
+                          </span>
+                        )}
+                      </div>
+                      
+                      <h3 className="font-semibold text-lg text-foreground mb-2">{baseService.title}</h3>
+                      <p className="text-sm text-text-secondary leading-relaxed mb-4 flex-grow">{baseService.description}</p>
+                      
+                      <div className="space-y-2 mb-5">
+                        <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
+                          <Clock size={13} className="text-accent" /> Duration: {baseService.duration}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
+                          <Video size={13} className="text-accent" /> Video call or in-person
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-medium text-text-muted">
+                          <CheckCircle2 size={13} className="text-accent" /> Free rescheduling
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4 border-t border-border-light flex items-center justify-between">
+                        <div>
+                          <span className="font-bold text-xl text-foreground">₹{price.toLocaleString()}</span>
+                        </div>
+                        <button 
+                          onClick={() => setSelectedService({ id: baseService.id, title: baseService.title, price, icon: baseService.icon, duration: baseService.duration })}
+                          disabled={isInCart}
+                          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                            isInCart
+                              ? 'bg-surface-muted text-text-muted cursor-not-allowed'
+                              : 'bg-accent text-white hover:bg-accent-hover shadow-sm hover:shadow-md'
+                          }`}
+                        >
+                          {isInCart ? (
+                            <>Added</>
+                          ) : (
+                            <><Plus size={15} /> Add to Cart</>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Cart summary bar */}
+              {cartItems.filter(i => i.stylistId === stylist.id).length > 0 && (
+                <div className="mt-8 bg-foreground text-white rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 animate-fade-in-up">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                      <ShoppingBag size={18} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">
+                        {cartItems.filter(i => i.stylistId === stylist.id).length} service(s) in your cart
+                      </p>
+                      <p className="text-xs text-white/60">
+                        Total: ₹{cartItems.filter(i => i.stylistId === stylist.id).reduce((sum, i) => sum + i.price, 0).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                  <Link 
+                    href="/cart"
+                    className="bg-accent hover:bg-accent-hover text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all"
+                  >
+                    View Cart <ArrowRight size={16} />
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* REVIEWS TAB */}
+          {activeTab === 'reviews' && (
+            <div className="animate-fade-in">
+              <div className="mb-6">
+                <h2 className="font-serif text-2xl text-foreground mb-2">Client Reviews</h2>
+                <div className="flex items-center gap-3">
+                  <span className="text-4xl font-bold text-foreground">{stylist.rating}</span>
+                  <div>
+                    <div className="flex items-center gap-1 mb-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} size={16} className={i < Math.round(stylist.rating) ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'} />
+                      ))}
+                    </div>
+                    <p className="text-sm text-text-muted">{stylist.reviewCount} reviews</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-5">
+                {stylist.reviews.map(review => (
+                  <div key={review.id} className="bg-white border border-border rounded-2xl p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <Image
+                          src={review.clientAvatar}
+                          alt={review.clientName}
+                          width={40}
+                          height={40}
+                          className="rounded-full"
+                        />
+                        <div>
+                          <p className="font-semibold text-sm text-foreground">{review.clientName}</p>
+                          <p className="text-xs text-text-muted">{review.service} • {new Date(review.date).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: review.rating }).map((_, i) => (
+                          <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-sm text-text-secondary leading-relaxed">"{review.comment}"</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ABOUT TAB */}
+          {activeTab === 'about' && (
+            <div className="animate-fade-in max-w-3xl">
+              <h2 className="font-serif text-2xl text-foreground mb-4">About {stylist.name}</h2>
+              <p className="text-text-secondary leading-relaxed mb-8">{stylist.bio}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-white border border-border rounded-xl p-5">
+                  <h4 className="font-semibold text-sm text-foreground mb-3">Experience</h4>
+                  <p className="text-sm text-text-secondary">{stylist.experience} in professional styling</p>
+                </div>
+                <div className="bg-white border border-border rounded-xl p-5">
+                  <h4 className="font-semibold text-sm text-foreground mb-3">Languages</h4>
+                  <p className="text-sm text-text-secondary">{stylist.languages.join(', ')}</p>
+                </div>
+                <div className="bg-white border border-border rounded-xl p-5">
+                  <h4 className="font-semibold text-sm text-foreground mb-3">Available in</h4>
+                  <p className="text-sm text-text-secondary">{stylist.destinations.join(', ')}</p>
+                </div>
+                <div className="bg-white border border-border rounded-xl p-5">
+                  <h4 className="font-semibold text-sm text-foreground mb-3">Availability</h4>
+                  <p className="text-sm text-text-secondary">{stylist.availability}</p>
+                </div>
+              </div>
+
+              {/* Portfolio */}
+              <h3 className="font-serif text-xl text-foreground mb-4">Portfolio</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {stylist.portfolioImages.map((img, idx) => (
+                  <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden group">
+                    <Image src={img} alt={`Portfolio ${idx + 1}`} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </main>
 
       <Footer />
 
-      {/* 5. ELEVATED BOOKING MODAL */}
+      {/* ===== BOOKING MODAL ===== */}
       {selectedService && (
-        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 md:p-6">
-          <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-border">
+        <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-6 animate-fade-in">
+          <div className="bg-white rounded-t-3xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             
-            <div className="p-6 md:p-8 border-b border-border flex items-start justify-between relative bg-surface-muted">
-              <div>
-                <span className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1 block">Reserve Session</span>
-                <h3 className="font-serif text-2xl text-foreground">{selectedService.title}</h3>
-                <p className="text-xs font-medium text-text-secondary mt-1">with {stylist.name}</p>
+            {/* Header */}
+            <div className="p-6 border-b border-border flex items-start justify-between bg-surface-muted">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{selectedService.icon}</span>
+                <div>
+                  <h3 className="font-semibold text-lg text-foreground">{selectedService.title}</h3>
+                  <p className="text-xs text-text-muted">with {stylist.name} • {selectedService.duration}</p>
+                </div>
               </div>
-              <button onClick={() => setSelectedService(null)} className="p-2 bg-white rounded-full text-text-muted hover:text-foreground shadow-sm transition-colors absolute top-6 right-6">
-                <X size={16} />
+              <button onClick={() => { setSelectedService(null); setAddedToCart(false); }} className="p-2 rounded-full hover:bg-white text-text-muted hover:text-foreground transition-colors">
+                <X size={18} />
               </button>
             </div>
             
-            <div className="p-6 md:p-8 overflow-y-auto bg-white">
-              
-              <div className="space-y-8">
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-text-muted mb-3">Select Date</label>
-                  <input 
-                    type="date" 
-                    value={date} 
-                    onChange={e => setDate(e.target.value)}
-                    className="w-full border border-border rounded-xl p-4 text-sm focus:outline-none focus:border-accent bg-surface-muted transition-colors"
-                  />
+            {/* Success state */}
+            {addedToCart ? (
+              <div className="p-8 text-center animate-fade-in">
+                <div className="w-16 h-16 rounded-full bg-success-light flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle2 size={32} className="text-success" />
                 </div>
-                
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-text-muted mb-3">Select Time</label>
-                  <select 
-                    value={time} 
-                    onChange={e => setTime(e.target.value)}
-                    className="w-full border border-border rounded-xl p-4 text-sm focus:outline-none focus:border-accent bg-surface-muted transition-colors cursor-pointer"
-                  >
-                    <option value="">Choose a time slot (Local Time)</option>
-                    <option value="Morning (9AM - 12PM)">Morning (9AM - 12PM)</option>
-                    <option value="Afternoon (1PM - 4PM)">Afternoon (1PM - 4PM)</option>
-                    <option value="Evening (5PM - 8PM)">Evening (5PM - 8PM)</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest text-text-muted mb-3">Mode of Consultation</label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button 
-                      onClick={() => setMode('video')}
-                      className={`flex flex-col items-center justify-center p-5 border rounded-2xl gap-3 transition-all ${mode === 'video' ? 'border-accent bg-accent/5 text-accent shadow-sm' : 'border-border text-text-secondary hover:border-text-muted hover:bg-surface-muted'}`}
-                    >
-                      <Video size={24} />
-                      <span className="text-xs font-bold uppercase tracking-wider">Video Call</span>
-                    </button>
-                    <button 
-                      onClick={() => setMode('in-person')}
-                      className={`flex flex-col items-center justify-center p-5 border rounded-2xl gap-3 transition-all ${mode === 'in-person' ? 'border-accent bg-accent/5 text-accent shadow-sm' : 'border-border text-text-secondary hover:border-text-muted hover:bg-surface-muted'}`}
-                    >
-                      <Pin size={24} />
-                      <span className="text-xs font-bold uppercase tracking-wider">In-Person</span>
-                    </button>
+                <h3 className="font-semibold text-xl text-foreground mb-2">Added to Cart! 🎉</h3>
+                <p className="text-sm text-text-secondary mb-6">Your booking has been added to cart.</p>
+                <Link
+                  href="/cart"
+                  className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-accent-hover transition-all"
+                >
+                  <ShoppingBag size={16} /> Go to Cart
+                </Link>
+              </div>
+            ) : (
+              <>
+                <div className="p-6 overflow-y-auto space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Select Date</label>
+                    <input 
+                      type="date" 
+                      value={date} 
+                      onChange={e => setDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full border border-border rounded-xl p-3.5 text-sm focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 bg-white transition-all"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Select Time</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { label: "Morning", time: "10AM-12PM", emoji: "🌅" },
+                        { label: "Afternoon", time: "1PM-4PM", emoji: "☀️" },
+                        { label: "Evening", time: "5PM-8PM", emoji: "🌆" },
+                      ].map(slot => (
+                        <button
+                          key={slot.time}
+                          onClick={() => setTime(slot.time)}
+                          className={`py-3 px-2 rounded-xl text-center border transition-all ${
+                            time === slot.time 
+                              ? 'border-accent bg-accent-light text-accent shadow-sm' 
+                              : 'border-border bg-white text-text-secondary hover:border-accent/30'
+                          }`}
+                        >
+                          <span className="text-lg block mb-1">{slot.emoji}</span>
+                          <span className="text-[11px] font-semibold block">{slot.label}</span>
+                          <span className="text-[10px] text-text-muted block">{slot.time}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Mode</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button 
+                        onClick={() => setMode('video')}
+                        className={`flex items-center justify-center gap-2 p-3.5 border rounded-xl transition-all ${
+                          mode === 'video' ? 'border-accent bg-accent-light text-accent shadow-sm' : 'border-border text-text-secondary hover:border-accent/30'
+                        }`}
+                      >
+                        <Video size={18} />
+                        <span className="text-sm font-medium">Video Call</span>
+                      </button>
+                      <button 
+                        onClick={() => setMode('in-person')}
+                        className={`flex items-center justify-center gap-2 p-3.5 border rounded-xl transition-all ${
+                          mode === 'in-person' ? 'border-accent bg-accent-light text-accent shadow-sm' : 'border-border text-text-secondary hover:border-accent/30'
+                        }`}
+                      >
+                        <Pin size={18} />
+                        <span className="text-sm font-medium">In-Person</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            
-            <div className="p-6 md:p-8 border-t border-border bg-white flex items-center justify-between">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-1">Total Investment</div>
-                <div className="font-serif text-3xl text-foreground">${selectedService.price}</div>
-              </div>
-              <button 
-                onClick={handleAddToCart}
-                disabled={!date || !time}
-                className="bg-accent text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent-hover transition-colors shadow-md"
-              >
-                Confirm & Add
-              </button>
-            </div>
+                
+                {/* Footer */}
+                <div className="p-6 border-t border-border bg-white flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-medium text-text-muted mb-0.5">Total</div>
+                    <div className="font-bold text-2xl text-foreground">₹{selectedService.price.toLocaleString()}</div>
+                  </div>
+                  <button 
+                    onClick={handleAddToCart}
+                    disabled={!date || !time}
+                    className="bg-accent text-white px-6 py-3.5 rounded-xl text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent-hover transition-all shadow-sm hover:shadow-md flex items-center gap-2"
+                  >
+                    <ShoppingBag size={16} /> Add to Cart
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

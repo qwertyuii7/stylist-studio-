@@ -2,212 +2,320 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Search, MapPin, Star, Sparkles, Navigation, LayoutGrid, Heart, ShieldCheck, ChevronRight } from "lucide-react";
+import { Search, MapPin, Star, Sparkles, ChevronRight, ShieldCheck, Clock, Users, Heart, ArrowRight, Play, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StylistCard from "@/components/StylistCard";
-import { mockStylists, coreServices } from "@/data/mockDatabase";
+import { mockStylists, coreServices, testimonials } from "@/data/mockDatabase";
+import { useState } from "react";
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground antialiased selection:bg-accent/20">
+    <div className="flex flex-col min-h-screen bg-background text-foreground antialiased">
       <Navbar />
 
       <main className="flex-grow">
-        {/* 2. Hero Section with Prominent Segmented Search Console (Stitch Inspired) */}
-        <section className="relative pt-12 md:pt-20 pb-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/4"></div>
+        {/* ===== HERO SECTION ===== */}
+        <section className="relative pt-16 md:pt-24 pb-20 md:pb-32 px-6 md:px-12 overflow-hidden">
+          {/* Background decorations */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/4" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent-secondary/5 rounded-full blur-3xl -z-10 -translate-x-1/3 translate-y-1/4" />
           
-          <div className="text-center max-w-4xl mx-auto space-y-4 mb-12">
-            <h1 className="font-serif text-5xl md:text-7xl leading-tight text-foreground tracking-tight">
-              Curated Styling for Wherever Life Takes You.
-            </h1>
-            <p className="text-text-secondary text-lg max-w-2xl mx-auto mt-4">
-              Connect with world-class personal stylists, wardrobe curators, and fashion directors tailored to your destination, aesthetic, and calendar.
-            </p>
-          </div>
-
-          {/* District/MakeMyTrip Style Floating Booking Console */}
-          <div className="bg-white border border-border rounded-2xl md:rounded-full p-2 shadow-xl max-w-5xl mx-auto relative z-10 mt-8">
-            <form className="flex flex-col md:flex-row items-center w-full">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center max-w-4xl mx-auto space-y-6 mb-12">
+              {/* Trust badge */}
+              <div className="inline-flex items-center gap-2 bg-accent-light border border-accent/10 rounded-full px-4 py-2 text-sm font-medium text-accent animate-fade-in-up">
+                <Sparkles size={16} /> Trusted by 4,800+ Indians for styling
+              </div>
               
-              {/* Segment 1: Occasion / Destination */}
-              <div className="flex-1 w-full px-4 py-3 md:px-6 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors duration-150 cursor-pointer flex items-center gap-4">
-                <MapPin className="text-accent shrink-0" size={24} />
-                <div className="flex-1 text-left">
-                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Where or what occasion?</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. Amalfi Coast, Paris Fashion Week" 
-                    className="w-full bg-transparent border-0 p-0 text-foreground font-medium placeholder:text-text-muted focus:ring-0 focus:outline-none truncate text-sm"
-                  />
+              <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight text-foreground tracking-tight animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                Your Personal Stylist,
+                <br />
+                <span className="text-gradient">Just a Click Away</span>
+              </h1>
+              
+              <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Book expert stylists for weddings, festivals, office wear, or everyday fashion. 
+                Get styled for any occasion — all online, starting at just <span className="font-semibold text-foreground">₹1,499</span>.
+              </p>
+            </div>
+
+            {/* Search Console */}
+            <div className="bg-white border border-border rounded-2xl md:rounded-full p-2 shadow-xl max-w-4xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="flex flex-col md:flex-row items-center w-full">
+                {/* City */}
+                <div className="flex-1 w-full px-4 py-3 md:px-5 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors cursor-pointer flex items-center gap-3">
+                  <MapPin className="text-accent shrink-0" size={20} />
+                  <div className="flex-1 text-left">
+                    <label className="block text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-0.5">Your City</label>
+                    <select 
+                      value={selectedCity}
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                      className="w-full bg-transparent border-0 p-0 text-foreground font-medium focus:ring-0 focus:outline-none text-sm cursor-pointer"
+                    >
+                      <option value="">All Cities</option>
+                      <option>Mumbai</option>
+                      <option>Delhi</option>
+                      <option>Bangalore</option>
+                      <option>Hyderabad</option>
+                      <option>Chennai</option>
+                      <option>Pune</option>
+                      <option>Kolkata</option>
+                      <option>Ahmedabad</option>
+                      <option>Jaipur</option>
+                      <option>Kochi</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="hidden md:block w-px h-10 bg-border shrink-0" />
+                
+                {/* What do you need */}
+                <div className="flex-1 w-full px-4 py-3 md:px-5 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors cursor-pointer flex items-center gap-3">
+                  <Search className="text-text-muted shrink-0" size={20} />
+                  <div className="flex-1 text-left">
+                    <label className="block text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-0.5">Looking for</label>
+                    <input 
+                      type="text" 
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Wedding stylist, office wardrobe, festive look..." 
+                      className="w-full bg-transparent border-0 p-0 text-foreground font-medium placeholder:text-text-muted focus:ring-0 focus:outline-none text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Search Button */}
+                <div className="w-full md:w-auto p-1 shrink-0">
+                  <Link href="/explore" className="w-full md:w-auto bg-accent hover:bg-accent-hover text-white rounded-xl md:rounded-full font-semibold text-sm flex items-center justify-center gap-2 px-7 py-3.5 shadow-md transition-all hover:shadow-lg whitespace-nowrap">
+                    <Search size={17} /> Find Stylist
+                  </Link>
                 </div>
               </div>
-              
-              <div className="hidden md:block w-px h-10 bg-border shrink-0 mx-2"></div>
-              
-              {/* Segment 2: Vibe & Aesthetic */}
-              <div className="flex-1 w-full px-4 py-3 md:px-6 rounded-xl md:rounded-full hover:bg-surface-muted transition-colors duration-150 cursor-pointer flex items-center gap-4">
-                <LayoutGrid className="text-foreground shrink-0" size={24} />
-                <div className="flex-1 text-left pr-4">
-                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Vibe & Aesthetic</label>
-                  <select className="w-full bg-transparent border-0 p-0 text-foreground font-medium focus:ring-0 focus:outline-none cursor-pointer text-sm truncate">
-                    <option>Quiet Luxury & Tailoring</option>
-                    <option>Resort Chic & Coastal</option>
-                    <option>Executive Power Minimalist</option>
-                    <option>Avant-Garde Architectural</option>
-                    <option>Red Carpet & Black Tie</option>
-                  </select>
-                </div>
-              </div>
+            </div>
 
-              {/* Action CTA Button */}
-              <div className="w-full md:w-auto p-1 md:pl-2 shrink-0">
-                <Link href="/explore" className="w-full md:w-auto bg-accent hover:bg-accent-hover text-white rounded-xl md:rounded-full font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 px-8 py-4 shadow-md transition-colors whitespace-nowrap">
-                  <Search size={18} /> Find Stylist
-                </Link>
+            {/* Trust indicators */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm font-medium text-text-secondary animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="flex items-center gap-2">
+                <Star className="text-amber-400 fill-amber-400" size={16} /> 
+                <span>4.8/5 Average Rating</span>
               </div>
-            </form>
-          </div>
-
-          {/* Trust Proof Bar */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm font-medium text-text-secondary">
-            <div className="flex items-center gap-2"><Sparkles className="text-accent" size={16} /> <span>4,800+ bespoke edits curated</span></div>
-            <span className="hidden sm:inline text-border">•</span>
-            <div className="flex items-center gap-2"><Star className="text-accent fill-accent" size={16} /> <span>Rated 4.9/5 by Vogue clients</span></div>
-            <span className="hidden sm:inline text-border">•</span>
-            <div className="flex items-center gap-2"><ShieldCheck className="text-foreground" size={16} /> <span>Satisfaction Guaranteed</span></div>
+              <span className="hidden sm:inline text-border">•</span>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="text-success" size={16} /> 
+                <span>Verified Stylists</span>
+              </div>
+              <span className="hidden sm:inline text-border">•</span>
+              <div className="flex items-center gap-2">
+                <Clock className="text-accent" size={16} /> 
+                <span>Book in 2 Minutes</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* 3. Horizontal Category Pills Bar */}
-        <section className="border-y border-border bg-surface-muted py-4 sticky top-16 z-40 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 overflow-x-auto no-scrollbar">
-            <div className="flex items-center gap-3 min-w-max pb-1">
+        {/* ===== HOW IT WORKS ===== */}
+        <section className="py-20 px-6 md:px-12 bg-white border-y border-border">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <span className="text-accent font-semibold text-xs uppercase tracking-widest">Simple & Easy</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-3 mb-3">How It Works</h2>
+              <p className="text-text-secondary max-w-lg mx-auto">Get styled in 3 simple steps. No complexity, no hassle.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {[
+                { step: "01", icon: <Search size={24} />, title: "Browse & Choose", desc: "Explore verified stylists, check their portfolio, reviews, and pricing. Filter by your occasion, budget, or city." },
+                { step: "02", icon: <Clock size={24} />, title: "Book a Session", desc: "Pick a service, choose your preferred date & time, and book instantly. Video call or in-person — your choice." },
+                { step: "03", icon: <Sparkles size={24} />, title: "Get Styled!", desc: "Connect with your stylist, share your preferences, and receive personalized styling recommendations." },
+              ].map((item, idx) => (
+                <div key={idx} className="text-center group">
+                  <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-light mb-5 group-hover:scale-110 transition-transform">
+                    <span className="text-accent">{item.icon}</span>
+                    <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">{item.step}</span>
+                  </div>
+                  <h3 className="font-semibold text-lg text-foreground mb-2">{item.title}</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== SERVICES ===== */}
+        <section className="py-20 px-6 md:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+              <div>
+                <span className="text-accent font-semibold text-xs uppercase tracking-widest">Our Services</span>
+                <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-3 mb-2">Styling for Every Occasion</h2>
+                <p className="text-text-secondary max-w-lg">From daily wear to wedding glam — find the perfect styling service for you.</p>
+              </div>
+              <Link href="/explore" className="text-sm font-semibold text-accent hover:text-accent-hover inline-flex items-center gap-1 transition-colors">
+                View All Services <ChevronRight size={16} />
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {coreServices.map((service, idx) => (
-                <Link 
-                  href="/explore" 
-                  key={service.id} 
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-bold transition-colors ${
-                    idx === 0 
-                      ? "bg-foreground text-white border-foreground" 
-                      : "bg-white border-border text-text-secondary hover:border-foreground hover:text-foreground"
-                  }`}
+                <Link
+                  href="/explore"
+                  key={service.id}
+                  className="group bg-white border border-border rounded-2xl p-6 hover:border-accent/30 hover:shadow-lg transition-all card-hover"
                 >
-                  {service.title}
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="text-3xl">{service.icon}</span>
+                    <span className="text-xs font-semibold text-text-muted bg-surface-muted px-3 py-1 rounded-full">{service.duration}</span>
+                  </div>
+                  <h3 className="font-semibold text-lg text-foreground mb-2 group-hover:text-accent transition-colors">{service.title}</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed mb-4">{service.description}</p>
+                  <div className="flex items-center justify-between pt-4 border-t border-border-light">
+                    <span className="font-semibold text-foreground">From ₹{service.basePrice.toLocaleString()}</span>
+                    <span className="text-xs font-semibold text-accent group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                      Book Now <ArrowRight size={14} />
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 4. 'Top Curators' Horizontal Showcase */}
-        <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <span className="text-accent font-bold text-xs uppercase tracking-widest">World-Class Talent</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-2">Meet Our Top Curators</h2>
-              <p className="text-text-secondary mt-3 max-w-xl">
-                Vetted fashion directors, former luxury brand stylists, and personal shoppers with distinct aesthetic signatures.
-              </p>
-            </div>
-            <Link href="/explore" className="font-bold text-sm text-accent hover:text-accent-hover inline-flex items-center gap-1 uppercase tracking-wider">
-              Explore All Curators <ChevronRight size={16} />
-            </Link>
-          </div>
-          
-          <div className="flex gap-6 overflow-x-auto pb-8 -mx-6 px-6 md:-mx-12 md:px-12 no-scrollbar snap-x snap-mandatory">
-            {mockStylists.map(stylist => (
-              <div key={stylist.id} className="min-w-[300px] md:min-w-[340px] snap-start">
-                <StylistCard stylist={stylist} />
+        {/* ===== TOP STYLISTS ===== */}
+        <section className="py-20 px-6 md:px-12 bg-surface-muted border-y border-border">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+              <div>
+                <span className="text-accent font-semibold text-xs uppercase tracking-widest">Top Rated</span>
+                <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-3 mb-2">Popular Stylists</h2>
+                <p className="text-text-secondary max-w-lg">Handpicked stylists with amazing reviews and proven expertise.</p>
               </div>
-            ))}
+              <Link href="/explore" className="text-sm font-semibold text-accent hover:text-accent-hover inline-flex items-center gap-1 transition-colors">
+                See All Stylists <ChevronRight size={16} />
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {mockStylists.map(stylist => (
+                <StylistCard key={stylist.id} stylist={stylist} />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* 5. 'Discover by Vibe' Magazine-Style Asymmetric Bento Grid */}
-        <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-surface-muted rounded-3xl border border-border mb-24">
-          <div className="mb-14 text-center md:text-left">
-            <span className="text-accent font-bold text-xs uppercase tracking-widest">Editorial Lookbooks</span>
-            <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-2">Discover by Vibe</h2>
-            <p className="text-text-secondary mt-3 max-w-2xl mx-auto md:mx-0">
-              Curated wardrobe drops & visual moodboards engineered for specific settings, climates, and social calendars.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Big Hero Feature (Spans 7 cols) */}
-            <div className="lg:col-span-7 bg-white rounded-2xl border border-border overflow-hidden flex flex-col group shadow-sm hover:shadow-md transition-shadow">
-              <div className="relative h-[400px] overflow-hidden">
-                <Image src="/service_travel.jpg" alt="Amalfi Vacation" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                <div className="absolute top-4 left-4 bg-accent text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                  Curator Pick of the Week
-                </div>
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <span className="text-[10px] font-bold tracking-widest uppercase opacity-90">Resort & Summer Edition</span>
-                  <h3 className="font-serif text-3xl md:text-4xl mt-1">The Amalfi Vacation Edit</h3>
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col justify-between">
-                <p className="text-text-secondary leading-relaxed">
-                  Sun-bleached linen, relaxed silk shirting, terracotta knitwear, and Riviera footwear handpicked by top coastal stylists. Designed for effortless transitions from beach club luncheons to cliffside twilight dinners.
-                </p>
-                <div className="mt-8 pt-6 border-t border-border-light flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-accent"></span>
-                    <span className="text-sm font-bold text-foreground">14 Essential Pieces Curated</span>
+        {/* ===== TESTIMONIALS ===== */}
+        <section className="py-20 px-6 md:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <span className="text-accent font-semibold text-xs uppercase tracking-widest">Happy Clients</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-3 mb-3">What People Say</h2>
+              <p className="text-text-secondary max-w-lg mx-auto">Real reviews from real people who found their style.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {testimonials.map((t, idx) => (
+                <div key={t.id} className="bg-white border border-border rounded-2xl p-6 card-hover">
+                  <div className="flex items-center gap-1 mb-4">
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+                    ))}
                   </div>
-                  <Link href="/explore" className="px-6 py-3 rounded-full bg-foreground hover:bg-dark-hover text-white text-xs font-bold uppercase tracking-wider transition-colors">
-                    Book This Vibe
+                  <p className="text-sm text-text-secondary leading-relaxed mb-5">"{t.comment}"</p>
+                  <div className="flex items-center gap-3 pt-4 border-t border-border-light">
+                    <Image
+                      src={t.avatar}
+                      alt={t.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                    <div>
+                      <p className="font-semibold text-sm text-foreground">{t.name}</p>
+                      <p className="text-xs text-text-muted">{t.location} • {t.service}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== WHY CHOOSE US ===== */}
+        <section className="py-20 px-6 md:px-12 bg-foreground text-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <span className="text-accent font-semibold text-xs uppercase tracking-widest">Why Stylist Studio</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-white mt-3 mb-3">Built for the Modern Indian</h2>
+              <p className="text-white/60 max-w-lg mx-auto">Fashion that respects your culture, budget, and personal taste.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: <ShieldCheck size={24} />, title: "Verified Experts", desc: "Every stylist is vetted and reviewed. Only the best make it to our platform." },
+                { icon: <Heart size={24} />, title: "Indian Fashion Focus", desc: "Stylists who understand Indian occasions — from Diwali to board meetings." },
+                { icon: <Users size={24} />, title: "All Budgets Welcome", desc: "Starting at ₹1,499. Premium styling doesn't have to break the bank." },
+                { icon: <Clock size={24} />, title: "Quick & Convenient", desc: "Book in minutes. Get styled via video call from the comfort of your home." },
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+                  <div className="text-accent mb-4">{item.icon}</div>
+                  <h3 className="font-semibold text-lg text-white mb-2">{item.title}</h3>
+                  <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== CTA SECTION ===== */}
+        <section className="py-20 px-6 md:px-12">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="bg-gradient-to-br from-accent/5 via-accent-secondary/5 to-purple/5 border border-border rounded-3xl p-12 md:p-16 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/10 rounded-full blur-3xl -z-0 translate-x-1/3 -translate-y-1/4" />
+              <div className="absolute bottom-0 left-0 w-[250px] h-[250px] bg-purple/10 rounded-full blur-3xl -z-0 -translate-x-1/3 translate-y-1/4" />
+              
+              <div className="relative z-10">
+                <Sparkles className="mx-auto text-accent mb-5" size={32} />
+                <h2 className="font-serif text-3xl md:text-5xl text-foreground mb-4">
+                  Ready to Look Your Best?
+                </h2>
+                <p className="text-text-secondary text-lg max-w-xl mx-auto mb-8">
+                  Join thousands of Indians who have discovered their personal style. Your transformation starts here.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link
+                    href="/explore"
+                    className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all"
+                  >
+                    <Search size={17} /> Find My Stylist
+                  </Link>
+                  <Link
+                    href="/auth?mode=signup"
+                    className="bg-white border border-border text-foreground px-8 py-4 rounded-xl text-sm font-semibold flex items-center gap-2 hover:bg-surface-muted transition-all"
+                  >
+                    Create Free Account <ArrowRight size={16} />
                   </Link>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Right Column: Stacked Features (Spans 5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              
-              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
-                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
-                  <Image src="/stylist_2.jpg" alt="Executive Tailoring" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                <div className="flex-1">
-                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Corporate & High Impact</span>
-                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Executive Power Tailoring</h4>
-                  <p className="text-xs text-text-secondary line-clamp-2">
-                    Precision double-breasted blazers, sharp cashmere trousers, and understated leather goods for boardroom impact.
-                  </p>
-                </div>
-              </Link>
-
-              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
-                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
-                  <Image src="/hero.jpg" alt="Minimalist Retreat" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                <div className="flex-1">
-                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Casual Capsule</span>
-                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Minimalist Weekend Retreat</h4>
-                  <p className="text-xs text-text-secondary line-clamp-2">
-                    Monochromatic knitwear, raw denim, and relaxed luxury outerwear for effortless countryside ease.
-                  </p>
-                </div>
-              </Link>
-
-              <Link href="/explore" className="bg-white rounded-2xl border border-border p-5 flex gap-5 items-center group hover:border-foreground transition-colors shadow-sm">
-                <div className="w-32 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-muted">
-                  <Image src="/stylist_1.jpg" alt="Gala Elegance" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                <div className="flex-1">
-                  <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Black Tie & Gala</span>
-                  <h4 className="font-serif text-xl text-foreground mt-1 mb-2">Gala & Evening Elegance</h4>
-                  <p className="text-xs text-text-secondary line-clamp-2">
-                    Sculptural silhouettes, black-tie accents, and dramatic bespoke evening wear customized to strict event dress codes.
-                  </p>
-                </div>
-              </Link>
-              
+        {/* ===== BECOME A STYLIST CTA ===== */}
+        <section className="py-16 px-6 md:px-12 bg-surface-muted border-t border-border">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-2">Are you a stylist?</h3>
+              <p className="text-text-secondary max-w-lg">Join our platform and connect with thousands of clients. Set your own prices, manage your schedule, and grow your business.</p>
             </div>
+            <Link
+              href="/auth?mode=signup"
+              className="bg-foreground hover:bg-dark-hover text-white px-8 py-4 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all whitespace-nowrap shadow-sm"
+            >
+              Join as Stylist <ArrowRight size={16} />
+            </Link>
           </div>
         </section>
 

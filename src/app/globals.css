@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #FAF8F5; /* Warm off-white */
-  --color-foreground: #2C2A29; /* Soft black/dark brown */
-  --color-surface-muted: #F2EBE3; /* Warm beige */
+  --color-background: #FAFAF8;
+  --color-foreground: #1A1A2E;
   
-  --color-border: #E8E2D9;
-  --color-border-light: #F5EFEB;
-  --color-border-dark: #D1C9C0;
-  --color-border-global: #E8E2D9;
+  --color-surface-muted: #F5F3EF;
+  --color-surface-card: #FFFFFF;
   
-  --color-dark: #3E3731; /* Deep warm brown/grey */
-  --color-dark-surface: #4A423A;
-  --color-dark-hover: #5C5248;
+  --color-border: #E8E4DD;
+  --color-border-light: #F0ECE6;
+  --color-border-dark: #D1CBC2;
+  --color-border-global: #E8E4DD;
   
-  --color-text-muted: #8A817C;
-  --color-text-secondary: #5C5552;
+  --color-dark: #16213E;
+  --color-dark-surface: #0F3460;
+  --color-dark-hover: #2C3E6B;
+  
+  --color-text-muted: #9A9490;
+  --color-text-secondary: #6B6560;
   --color-text-light: #B5ACA3;
   --color-text-dark-muted: #736B66;
-
-  --color-accent: #C8795A; /* Terracotta / Muted Orange for primary actions */
-  --color-accent-hover: #B06548;
+  
+  --color-accent: #E94560;
+  --color-accent-hover: #D43B56;
+  --color-accent-light: #FFF0F2;
+  
+  --color-accent-secondary: #F97316;
+  --color-accent-warm: #FF8C42;
+  
+  --color-success: #10B981;
+  --color-success-light: #ECFDF5;
+  
+  --color-purple: #8B5CF6;
+  --color-purple-light: #EDE9FE;
 
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
@@ -36,4 +48,114 @@ body {
 
 * {
   border-color: var(--color-border-global);
+}
+
+/* Smooth scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(233, 69, 96, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Stagger children animations */
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #E94560, #F97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Premium card hover */
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }

@@ -13,8 +13,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Online Styling Platform | Curated Quiet Luxury",
-  description: "Book professional stylists and personal shoppers.",
+  title: "Stylist Studio | Find Your Personal Stylist in India",
+  description: "Book verified personal stylists for weddings, festivals, office wear, and everyday fashion. Starting at ₹1,499. Trusted by 4,800+ Indians.",
 };
 
 export default function RootLayout({
