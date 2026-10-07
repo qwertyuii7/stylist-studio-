@@ -7,8 +7,10 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 
 const navLinks = [
-  { href: "/explore", label: "Find Stylists" },
+  { href: "/explore", label: "Find Stylists & Looks" },
+  { href: "/custom-request", label: "Build Your Own ✂️" },
   { href: "/signature", label: "Collections" },
+  { href: "/stylist-portal", label: "Stylist Portal & Earnings 💼" },
 ];
 
 export default function Navbar() {
