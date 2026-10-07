@@ -1,0 +1,206 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  STYLIST
+  ADMIN
+}
+
+enum GenderSpecialty {
+  WOMEN
+  MEN
+  UNISEX
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum ChatStatus {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+  CLOSED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  EXPIRED
+}
+
+enum CustomRequestStatus {
+  SUBMITTED
+  IN_REVIEW
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phone         String?
+  avatarUrl     String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  stylistProfile        StylistProfile?
+  userBookings          BookingSlot[]           @relation("UserBookings")
+  chatRooms             ChatRoom[]              @relation("UserChatRooms")
+  sentMessages          Message[]               @relation("UserMessages")
+  subscriptions         Subscription[]          @relation("UserSubscriptions")
+  customStylingRequests CustomStylingRequest[]  @relation("UserCustomRequests")
+}
+
+model StylistProfile {
+  id              String          @id @default(cuid())
+  userId          String          @unique
+  bio             String?
+  tagline         String?
+  genderSpecialty GenderSpecialty @default(UNISEX)
+  destinations    String[]        // e.g. ["Mumbai", "Delhi"]
+  aestheticTags   String[]        // e.g. ["indo-western", "bridal", "minimalist"]
+  experienceYears Int             @default(3)
+  hourlyRate      Float           @default(1499) // In INR
+  rating          Float           @default(5.0)
+  reviewCount     Int             @default(0)
+  totalEarnings   Float           @default(0)    // In INR
+  pendingPayout   Float           @default(0)    // In INR
+  isVerified      Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user                  User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  portfolioItems        PortfolioItem[]
+  bookingSlots          BookingSlot[]           @relation("StylistSlots")
+  chatRooms             ChatRoom[]              @relation("StylistChatRooms")
+  promotionalOffers     PromotionalOffer[]
+  customStylingRequests CustomStylingRequest[]  @relation("StylistCustomRequests")
+}
+
+model PortfolioItem {
+  id               String         @id @default(cuid())
+  stylistProfileId String
+  title            String?
+  imageUrl         String
+  description      String?
+  tags             String[]
+  likesCount       Int            @default(0)
+  createdAt        DateTime       @default(now())
+
+  stylistProfile   StylistProfile @relation(fields: [stylistProfileId], references: [id], onDelete: Cascade)
+}
+
+model BookingSlot {
+  id               String         @id @default(cuid())
+  stylistProfileId String
+  userId           String?
+  serviceTitle     String
+  startTime        DateTime
+  endTime          DateTime
+  mode             String         @default("video") // "video" | "in-person"
+  status           BookingStatus  @default(PENDING)
+  priceAmount      Float          // In INR (₹)
+  paymentId        String?
+  razorpayOrderId  String?
+  notes            String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  stylistProfile   StylistProfile @relation("StylistSlots", fields: [stylistProfileId], references: [id], onDelete: Cascade)
+  user             User?          @relation("UserBookings", fields: [userId], references: [id])
+}
+
+model ChatRoom {
+  id               String         @id @default(cuid())
+  userId           String
+  stylistProfileId String
+  status           ChatStatus     @default(REQUESTED)
+  initialTopic     String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  user             User           @relation("UserChatRooms", fields: [userId], references: [id], onDelete: Cascade)
+  stylistProfile   StylistProfile @relation("StylistChatRooms", fields: [stylistProfileId], references: [id], onDelete: Cascade)
+  messages         Message[]
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  chatRoomId String
+  senderId   String
+  content    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  sender     User     @relation("UserMessages", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                 String             @id @default(cuid())
+  userId             String
+  planName           String             // "Monthly Wardrobe Refresh", "Seasonal VIP Styling"
+  interval           String             @default("monthly") // "monthly" | "quarterly"
+  amount             Float              // In INR (₹)
+  razorpaySubId      String?            @unique
+  status             SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime           @default(now())
+  currentPeriodEnd   DateTime
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  user               User               @relation("UserSubscriptions", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PromotionalOffer {
+  id               String         @id @default(cuid())
+  stylistProfileId String
+  title            String         // e.g., "Festive Season 20% Off", "Diwali Bridal Special"
+  code             String         @unique
+  description      String
+  discountPercent  Float          // e.g., 20 for 20%
+  minBookingAmount Float          @default(0)
+  validUntil       DateTime
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+
+  stylistProfile   StylistProfile @relation(fields: [stylistProfileId], references: [id], onDelete: Cascade)
+}
+
+model CustomStylingRequest {
+  id               String              @id @default(cuid())
+  userId           String
+  stylistProfileId String?
+  occasion         String              // e.g., "Cocktail Party", "Office Revamp", "Festive Gathering"
+  budget           Float               // In INR (₹)
+  heightCm         Float
+  weightKg         Float
+  preferredColors  String[]
+  avoidColors      String[]
+  fitPreference    String              // "Slim", "Relaxed", "Tailored", "Oversized"
+  inspirationUrls  String[]
+  specialNotes     String?
+  status           CustomRequestStatus @default(SUBMITTED)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  user             User                @relation("UserCustomRequests", fields: [userId], references: [id], onDelete: Cascade)
+  stylistProfile   StylistProfile?     @relation("StylistCustomRequests", fields: [stylistProfileId], references: [id])
+}
