@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StylistCard from "@/components/StylistCard";
 import { mockStylists, coreServices, testimonials } from "@/data/mockDatabase";
+import SpecialOccasionStyling from "@/components/services/SpecialOccasionStyling";
 import { useState } from "react";
 
 export default function Home() {
@@ -162,7 +163,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {coreServices.map((service, idx) => (
                 <Link
-                  href="/explore"
+                  href={`/explore?service=${service.id}`}
                   key={service.id}
                   className="group bg-white border border-border rounded-2xl p-6 hover:border-accent/30 hover:shadow-lg transition-all card-hover"
                 >
@@ -183,6 +184,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ===== NAVRATRI, FESTIVE & EVENT SPECIAL STYLING ===== */}
+        <SpecialOccasionStyling />
 
         {/* ===== TOP STYLISTS ===== */}
         <section className="py-20 px-6 md:px-12 bg-surface-muted border-y border-border">

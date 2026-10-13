@@ -1,9 +1,10 @@
 // src/app/explore/page.tsx
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StylistCard from "@/components/StylistCard";
@@ -23,13 +24,34 @@ import {
   Eye,
 } from "lucide-react";
 
-export default function ExplorePage() {
-  const [activeTab, setActiveTab] = useState<"stylists" | "influencers">("stylists");
-  const [searchTerm, setSearchTerm] = useState("");
+function ExploreContent() {
+  const searchParams = useSearchParams();
+
+  const initialService = searchParams.get("service") || "all";
+  const initialTab = searchParams.get("tab") === "influencers" ? "influencers" : "stylists";
+  const initialSearch = searchParams.get("q") || searchParams.get("search") || searchParams.get("occasion") || searchParams.get("filter") || "";
+
+  const [activeTab, setActiveTab] = useState<"stylists" | "influencers">(initialTab);
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [selectedGender, setSelectedGender] = useState<string>("all");
-  const [selectedService, setSelectedService] = useState<string>("all");
+  const [selectedService, setSelectedService] = useState<string>(initialService);
   const [selectedCity, setSelectedCity] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("rating");
+
+  useEffect(() => {
+    const s = searchParams.get("service");
+    if (s && coreServices.some((cs) => cs.id === s)) {
+      setSelectedService(s);
+    }
+    const t = searchParams.get("tab");
+    if (t === "influencers" || t === "stylists") {
+      setActiveTab(t);
+    }
+    const q = searchParams.get("q") || searchParams.get("search") || searchParams.get("occasion") || searchParams.get("filter");
+    if (q) {
+      setSearchTerm(q);
+    }
+  }, [searchParams]);
 
   // Influencer Lookbook Feed Data
   const influencerLooks = [
@@ -484,3 +506,18 @@ export default function ExplorePage() {
     </div>
   );
 }
+
+export default function ExplorePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ExploreContent />
+    </Suspense>
+  );
+}
+
